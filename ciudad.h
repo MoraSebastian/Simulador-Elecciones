@@ -1,27 +1,61 @@
 #ifndef CIUDAD
 #define CIUDAD
 #include<string.h>
+#include "plantilla.h"
 #include "listas.h"
 #include "candidato.h"
 #include "estructura.h"
-class ciudades{
-	ciudad *mun;
-	int tam;
+class ciudades: public plantilla{
+	Lista<ciudad> mun;
+	
 	
 	public:
 		//Constructor ya esta cargando la informacion del archivo de las ciudades
-		ciudades(Lista<ciudad> ciu){	
-			mun = new ciudad[31];
-			tam=0;
-			for (int i=1; i<=ciu.getTam(); i++){
-				anadirCiudad(ciu.devolverDato(i));
-			}	
+		ciudades(){
+			this->leido = false;
+			this->cantidad  = 0;	
+			leer();
+			
 		}
 		/**Anade ciudades*/
 		void anadirCiudad(ciudad c){									
-			mun[tam+1] = c;
-			tam++;
-		}		
+			mun.anadirFin(c);
+		}	
+		
+		void leer(){
+			if(this->leido==false){
+				int clave;
+				string nombre;
+				int departamento;		
+				long long censo;
+				ciudad ciuda;
+
+				//archivo de entrada
+				ifstream archEntrada("archivos/Ciudades.txt", ios::in);
+				if (!archEntrada.good()){
+					cerr << "No se pudo abrir el archivo ciudades" << endl;
+			    	exit(1);
+				}
+				while(!archEntrada.eof()){
+					archEntrada >> clave;
+					archEntrada >> nombre;
+					archEntrada >> departamento;
+					archEntrada >> censo;
+					ciuda.clave = clave;
+					ciuda.nombre = nombre;
+					ciuda.departamento = departamento;
+					ciuda.censo = censo;
+					this->anadirCiudad(ciuda);
+				}
+				archEntrada.close();
+				this->leido = true;
+			}	
+		}	
+		
+		/**Método cuyo @return es una ciudad especifica*/
+		ciudad getCiudad(int i ){
+			return mun.devolverDato(i);
+		}
 		/**Muestra los candidatos de una ciudad*/
 	/*	Lista <candidato> mostrarCandPorCiudad(int posCiudad){
 			return mun[posCiudad].cabCandidatosCiudad;
@@ -41,12 +75,9 @@ class ciudades{
 		}
 		*/
 		
-		//Devuelve la cantidad de ciudades
-		int getTam(){
-			return tam;
-		}
+		
 		//funcion para consultar todos los partidos
-		ciudad* getCiudades(){
+		Lista<ciudad> getCiudades(){
 			return mun;
 		}
 		
@@ -55,6 +86,10 @@ class ciudades{
 			//Aun no hago esto
 		}
 	
-	
+		/**Método que no recibe parametros, pero su @return la cantidad de ciudades en el arreglo*/
+		int getCantidad(){
+			return mun.getTam();
+		}
+		
 };
 #endif
