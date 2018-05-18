@@ -1,0 +1,10 @@
+1 CentroDemocratico
+2 CambioRadical
+3 PartidoConservador
+4 PartidoLiberal
+5 PartidoSocialDeUnidadNacional
+6 AlianzaVerde
+7 PoloDemocraticoAlternativo
+8 ListaDeLaDecencia
+9 MIRA
+10 PartidoOpcionCiudadana
