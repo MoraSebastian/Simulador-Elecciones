@@ -2,16 +2,69 @@
 #define CANDIDATO
 #include "estructura.h"
 #include <cstring>
+#include <stdlib.h>
 #include <time.h>
 #include "listas.h"
+#include "plantilla.h"
 
-class candidatos{
+class candidatos: public plantilla{
 	Lista<candidato> cand;
 	public:
-	candidatos(Lista<candidato> can){
-		cand = can;
-	}
 	candidatos(){
+		this->leido = false;
+		this->cantidad  = 0;	
+		leer();
+	}
+	void leer(){
+		int clave;
+			string nombre;
+			string apellido;
+			long long id;
+			string sexo;
+			string estadoCivil;
+			string fechaNac;
+			int ciudadNac;
+			int ciudadRes;
+			int partido;
+			int vice;
+			int tipo;
+			candidato can;
+			this->cantidad = 0;
+			//archivo de entrada
+			ifstream archEntrada("Archivos/candidatos.txt", ios::in);
+			if(!archEntrada.good()){
+			 	cerr << "No se pudo abrir el archivo candidatos.txt" << endl;
+    			exit(1);
+			}
+			//se leen los registros
+			while(!archEntrada.eof()){
+				archEntrada >> clave;
+				archEntrada >> nombre;
+				archEntrada >> apellido;
+				archEntrada >> id;
+				archEntrada >> sexo;
+				archEntrada >> estadoCivil;
+				archEntrada >> fechaNac;
+				archEntrada >> ciudadNac;
+				archEntrada >> ciudadRes;
+				archEntrada >> partido;
+				archEntrada >> vice;
+				archEntrada >> tipo;
+				can.clave = clave;
+				can.nombre = nombre;
+				can.apellido = apellido;
+				can.id = id;
+				can.sexo = sexo;
+				can.estadoCivil = estadoCivil;
+				can.fechaNac= fechaNac;
+				can.ciudadNac = ciudadNac;
+				can.ciudadRes = ciudadRes;
+				can.partido = partido;
+				can.vicepresidente = vice;
+				can.tipoCandidato= tipo;
+				anadir(can);
+			}
+			archEntrada.close();
 	}
 	
 	//agregar un nuevo candidato
@@ -65,6 +118,11 @@ class candidatos{
 				anos--;
 			}
 			return anos;
+		}
+		
+		/*Muestra la cantidad de candidatos registrados*/
+		int getTam(){
+			return cand.getTam();
 		}
 		
 };
