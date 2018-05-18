@@ -1,103 +1,119 @@
 #ifndef _PARTIDOH_
 #define _PARTIDOH_
 #include "avl.h"
-#include "escritura.h"
 #include "estructura.h"
-
-class Partido{
-	partido* partidos;
-	candidatos can;
+#include "candidato.h"
+class Partido: public plantilla{
+	Lista<partido> partidos;
 	int tam;
 	
 	public:
-		Partido(candidatos candid, Lista<partido>  nombres){
-			can = candid;
-			tam = 0;
-			partidos = new partido[100];
-			for(int i = 1;i<=nombres.getTam();i++){
-				agregar(nombres.devolverDato(i));
-			}
-			for(int i = 1;i<=can.getCandidatos().getTam();i++){
-				anadirC(can.getCandidato(i));
+		Partido(Lista<candidato> c){
+			leer();
+			for(int i =1;i<= c.getTam();i++){
+				anadirC(c.devolverDato(i));
 			}
 		}
-				
 		//anadir partido
-		void agregar(partido p){
-			partidos[tam+1] = p;
-			tam++;
-		}
+		int anadirPar(partido par){
+			partidos.anadirFin(par);
+			return 0;
+		}		
+		//Lee el archivo
+		 void leer(){
+		 	if(leido==false){
+				int clave;
+				string nombre;
+				partido par;
+				//archivo de entrada
+				ifstream archEntrada("archivos/partidos.txt", ios::in);
+				if (!archEntrada.good()){
+				 	cerr<< "No se pudo abrir el archivo partidos" << endl;
+			    	exit(1);
+				}
+				while(!archEntrada.eof()) {
+					archEntrada >> clave;
+					archEntrada >> nombre;
+					par.clave = clave;
+					par.nombre = nombre;
+					anadirPar(par);
+				}
+				archEntrada.close();
+				this->leido = true;
+}
+		 }
+		
 		//Función encargada de insertar un candidato
 		void anadirC( candidato cani){
-			if(partidos[cani.partido].candidatos.getTam() == 0){
-				partidos[cani.partido].candidatos.insertarRaiz(cani.clave);
-			}else{
-				partidos[cani.partido].candidatos.insertarElemento(cani.clave);
+			partido p;
+			for(int i =1;i<=partidos.getTam();i++){
+				if(partidos.devolverDato(i).clave == cani.partido){
+					p =  partidos.devolverDato(i);
+					p.candidatos.anadirFin(cani);
+					partidos.modificar(p,i);
+				}
 			}	
 		}
 		
 		//Devuelve la cantidad de partidos
 		int getTam(){
-			return tam;
+			return partidos.getTam();
 		}
 		//funcion para consultar todos los partidos
-		partido* getPartidos(){
+		Lista<partido> getPartidos(){
 			return partidos;
 		}
 		
 		//Función para consultar un partido específico 
 		partido getPartido(int partido){
-			return partidos[partido];
+			int aux;
+			for(int i =1;i<=getTam();i++){
+				if(partidos.devolverDato(i).clave == partido){
+					aux = i;
+				}
+			}
+			return partidos.devolverDato(aux);
 		}
 		
 		
 		//obtener el nombre de un partido
 		string getNombre(int partido){
-			return partidos[partido].nombre;
+			int aux;
+			for(int i =1;i<=getTam();i++){
+				if(partidos.devolverDato(i).clave == partido){
+					aux = i;
+				}
+			}
+			return partidos.devolverDato(aux).nombre;
 		}
 		
 		//Obtiene los candidatos  de un partido
 		Lista<candidato> consultarC(int partido){
-			Lista<int> aux;
-			int auxp = 0;
-			Lista<candidato> temp;
-			for(int i =1;i<= tam;i++){
-				if(partido == partidos[i].clave)
-					auxp = i;
+			int aux;
+			for(int i = 1;i<=partidos.getTam();i++){
+				if(partido == partidos.devolverDato(i).clave){
+					aux = i;
+				}
 			}
-			aux = partidos[auxp].candidatos.getin();
-			for(int i =1;i<= aux.getTam();i++){
-				temp.anadirFin(can.getCandidato(aux.devolverDato(i)));
-			}
-			return temp;
+			return partidos.devolverDato(aux).candidatos;
 		}
 		
 		//Obtiene todos los candidatos a presidencia
 		Lista<candidato> candidatosPresidencia(){
-			Lista<int> aux;
 			Lista<candidato> temp;
-			cout<<"cantidad de partidos: "<<getTam()<<endl;
-			
 			for(int i = 1;i<= getTam();i++){
-				cout<<"partido: "<<partidos[i].clave<<endl;
-				aux = partidos[i].candidatos.getin();
-				for(int j =1;j<= aux.getTam();j++){
-					cout<<"clave: "<<can.getCandidato(aux.devolverDato(j)).clave<<"  tipo candidato: "<<can.getCandidato(aux.devolverDato(j)).tipoCandidato<<endl;
-					if(can.getCandidato(aux.devolverDato(j)).tipoCandidato == 1){
-						cout<<"clave: "<<can.getCandidato(aux.devolverDato(j)).clave<<endl;
-						temp.anadirFin(can.getCandidato(aux.devolverDato(j)));
+				Lista<candidato> c = partidos.devolverDato(i).candidatos;
+				for(int j =1;j<=c.getTam();j++){
+					if(c.devolverDato(i).tipoCandidato == 1){
+						temp.anadirFin(c.devolverDato(j));
 					}
 				}
 			}
 			return temp;
 		}
-		//Vacia las listas
-		void vaciar(){
-			for(int i = 0;i<=getTam();i++){
-				partidos[i].candidatos.vaciarListas();
-			}
-		}
 		
+		
+		/**
 		//Metodo para modificar un candidato
 		void modificar(int clave, candidato c){
 		//	Escritura esc;
@@ -127,6 +143,7 @@ class Partido{
 			
 			Escritura esc;
 			esc.eliminarCandidato(clave, can.getCandidatos().getTam());
-		}			
+		}
+		*/			
 };
 #endif

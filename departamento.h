@@ -1,9 +1,9 @@
 #ifndef DEPARTAMENTO
 #define DEPARTAMENTO
 #include "listas.h"
-#include "plantilla.h"
 #include<string.h>
 #include "estructura.h"
+#include "ciudad.h"
 //#include "ciudad.h"
 
 
@@ -12,10 +12,13 @@ class departamentos: public plantilla{
 	
 	public:
 		/**Constructos de departamento*/
-		departamentos(){
-			this->leido = false;
-			this->cantidad  = 0;	
+		departamentos(Lista<ciudad> c){
+			this->leido = false;	
 			leer();
+			for(int i = 1; i<= c.getTam();i++){
+				agregarMunicipio(c.devolverDato(i));
+			}
+			cout<<dep.devolverDato(1).municipios.getTam();
 		}
 		/** Get de arreglo de departamentos*/
 		Lista<departamento> getArregloDep(){
@@ -28,14 +31,18 @@ class departamentos: public plantilla{
 		}
 		/** Agregar municipio a departamento*/
 		void agregarMunicipio(ciudad municipio){
+			departamento d;
 			for(int i = 1;i<= dep.getTam();i++){
 				if(dep.devolverDato(i).clave == municipio.departamento){
-					dep.devolverDato(i).municipios.anadirFin(municipio);
+					d =dep.devolverDato(i);
+					d.municipios.anadirFin(municipio);
+					dep.modificar(d,i);
 				}
 			}
+			
 		}
 		/** Muestra las ciudades de un departamento*/
-		Lista <ciudad> mostrarCiudadesDept(int numDept){
+		Lista <ciudad> mostrarCiudades(int numDept){
 			return dep.devolverDato(numDept).municipios;
 		}	
 		
