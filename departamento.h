@@ -29,7 +29,7 @@ class departamentos{
 		}
 		/** Agregar departamento*/
 		void agregarDept(departamento dept){			
-			dep[tam++] = dept;
+			dep[tam+1] = dept;
 			tam++;			
 		}
 		/** Agregar municipio a departamento*/

@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
 	
 	Partido part(can,lee.lecturaPartido());
 	
-
+	cout<<"hola"<<endl;
 	Lista<candidato> cani = part.consultarC(6);
 	cout<<part.getPartido(6).nombre<<endl;
 	cout<<endl;
