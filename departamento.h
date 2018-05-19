@@ -61,19 +61,56 @@ class departamentos: public plantilla{
 					archEntrada >> clave;
 					archEntrada >> nombre;
 					dep.clave = clave;
-					dep.nombre = nombre;
+					dep.nombre = reemplazar(nombre, '-'," ");
 					agregarDept(dep);
 					this->cantidad++;
 				}
 				archEntrada.close();
 				this->leido = true;
-}
+			}
+		}	
+		void escribir(){						
+			ofstream archsalida1("archivos/temp.txt", ios::out|ios::trunc);    //Crea un archivo para escribirlo
+			
+			if (!archsalida1.good())
+		    {	cerr << "No se pudo abrir el archivo " << endl;
+		    	exit(1);
+			}    
+			for (int i=1; i<=dep.getTam(); i++){
+				archsalida1<<dep.devolverDato(i).clave<<" "<<reemplazar(dep.devolverDato(i).nombre, ' ',"-")<<" "<<dep.devolverDato(i).censo ;
+				if(i<dep.getTam()){
+					archsalida1<<endl;
+				}
+			}												
+		    archsalida1.close();
+		    
+		    remove("archivos/departamentos.txt");
+		 	rename("archivos/temp.txt", "archivos/departamentos.txt");
+		}	
+		void modificarD(departamento dept){
+			int i=1;
+			while(dept.clave!=dep.devolverDato(i).clave){
+				i++;
+			}
+			dept.municipios = dep.devolverDato(i).municipios;
+			dep.modificar(dept, i);
+			escribir();
 		}			
 		int getTam(){
 			return dep.getTam();
 		}
 		departamento getDept(int i){
 			return dep.devolverDato(i);
+		}
+		string reemplazar(string str, char original, string reemplazo) {    
+			string aux = str;        
+		    for (int i = 0; i < (int)aux.length(); ++i) {
+		        if(aux[i]==original)
+		        {
+		            aux.replace(i,1,reemplazo);
+		        }
+		    }     
+		    return aux;
 		}
 };
 #endif

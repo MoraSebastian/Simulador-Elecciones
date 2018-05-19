@@ -55,6 +55,34 @@ class ciudades: public plantilla{
 				this->leido = true;
 			}	
 		}	
+		
+		void escribir(){						
+			ofstream archsalida1("archivos/temp.txt", ios::out|ios::trunc);    //Crea un archivo para escribirlo
+			
+			if (!archsalida1.good())
+		    {	cerr << "No se pudo abrir el archivo " << endl;
+		    	exit(1);
+			}    
+			for (int i=1; i<=mun.getTam(); i++){
+				archsalida1<<mun.devolverDato(i).clave<<" "<<mun.devolverDato(i).nombre<<" "<<mun.devolverDato(i).departamento
+						   <<" "<<mun.devolverDato(i).censo ;
+				if(i<mun.getTam()){
+					archsalida1<<endl;
+				}
+			}												
+		    archsalida1.close();
+		    
+		    remove("archivos/ciudades.txt");
+		 	rename("archivos/temp.txt", "archivos/ciudades.txt");
+		}
+		void modificarC(ciudad ciu){
+			int i=1;
+			while(ciu.clave!=mun.devolverDato(i).clave){
+				i++;
+			}
+			mun.modificar(ciu, i);
+			escribir();
+		}
 		/*Metodo que devuelve el nombre de una ciudad*/
 		string getNombre(int ciudad){
 			int aux;
