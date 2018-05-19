@@ -18,10 +18,9 @@ class departamentos: public plantilla{
 			for(int i = 1; i<= c.getTam();i++){
 				agregarMunicipio(c.devolverDato(i));
 			}
-			cout<<dep.devolverDato(1).municipios.getTam();
 		}
 		/** Get de arreglo de departamentos*/
-		Lista<departamento> getArregloDep(){
+		Lista<departamento> getDeps(){
 			return dep;
 		}
 		
@@ -69,34 +68,7 @@ class departamentos: public plantilla{
 				archEntrada.close();
 				this->leido = true;
 }
-		}	
-		void escribir(){						
-			ofstream archsalida1("archivos/temp.txt", ios::out|ios::trunc);    //Crea un archivo para escribirlo
-			
-			if (!archsalida1.good())
-		    {	cerr << "No se pudo abrir el archivo " << endl;
-		    	exit(1);
-			}    
-			for (int i=1; i<=dep.getTam(); i++){
-				archsalida1<<dep.devolverDato(i).clave<<" "<<dep.devolverDato(i).nombre<<" "<<dep.devolverDato(i).censo ;
-				if(i<dep.getTam()){
-					archsalida1<<endl;
-				}
-			}												
-		    archsalida1.close();
-		    
-		    remove("archivos/departamentos.txt");
-		 	rename("archivos/temp.txt", "archivos/departamentos.txt");
-		}	
-		void modificarD(departamento dept){
-			int i=1;
-			while(dept.clave!=dep.devolverDato(i).clave){
-				i++;
-			}
-			dept.municipios = dep.devolverDato(i).municipios;
-			dep.modificar(dept, i);
-			escribir();
-		}	
+		}			
 		int getTam(){
 			return dep.getTam();
 		}
