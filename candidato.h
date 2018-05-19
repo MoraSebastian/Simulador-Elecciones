@@ -67,11 +67,41 @@ class candidatos: public plantilla{
 			archEntrada.close();
 	}
 	
+	void escribir(){						
+		ofstream archsalida1("archivos/temp.txt", ios::out|ios::trunc);    //Crea un archivo para escribirlo
+		
+		if (!archsalida1.good())
+	    {	cerr << "No se pudo abrir el archivo " << endl;
+	    	exit(1);
+		}    
+		for (int i=1; i<=cand.getTam(); i++){
+			archsalida1<<cand.devolverDato(i).clave<<" "<<cand.devolverDato(i).nombre<<" "<<cand.devolverDato(i).apellido
+					   <<" "<<cand.devolverDato(i).id <<" "<<cand.devolverDato(i).sexo<<" "<<cand.devolverDato(i).estadoCivil
+					   <<" "<<cand.devolverDato(i).fechaNac<<" "<<cand.devolverDato(i).ciudadNac<<" "<<cand.devolverDato(i).ciudadRes
+					   <<" "<<cand.devolverDato(i).partido<<" "<<cand.devolverDato(i).tipoCandidato<<" "<<cand.devolverDato(i).vicepresidente;
+			if(i<cand.getTam()){
+				archsalida1<<endl;
+			}
+		}												
+	    archsalida1.close();
+	    
+	    remove("archivos/candidatos.txt");
+	 	rename("archivos/temp.txt", "archivos/candidatos.txt");
+	}
 	//agregar un nuevo candidato
 	void anadir(candidato c){
 		cand.anadirFin(c);
 	}
-	
+	//modificar un candidato
+	void modificarC(candidato c){
+		int i=1;
+		
+		while (c.clave!=cand.devolverDato(i).clave){
+			i++;
+		}
+		cand.modificar(c, i);
+		escribir();
+	}
 	//Devuelve la lista de candidatos
 	Lista<candidato> getCandidatos(){
 		return cand;

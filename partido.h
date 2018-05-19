@@ -42,7 +42,24 @@ class Partido: public plantilla{
 				this->leido = true;
 }
 		 }
-		
+		void escribir(){						
+			ofstream archsalida1("archivos/temp.txt", ios::out|ios::trunc);    //Crea un archivo para escribirlo
+			
+			if (!archsalida1.good())
+		    {	cerr << "No se pudo abrir el archivo " << endl;
+		    	exit(1);
+			}    
+			for (int i=1; i<=partidos.getTam(); i++){
+				archsalida1<<partidos.devolverDato(i).clave<<" "<<partidos.devolverDato(i).nombre;						   
+				if(i<partidos.getTam()){
+					archsalida1<<endl;
+				}
+			}												
+		    archsalida1.close();
+		    
+		    remove("archivos/partidos.txt");
+		 	rename("archivos/temp.txt", "archivos/partidos.txt");
+		}
 		//Función encargada de insertar un candidato
 		void anadirC( candidato cani){
 			partido p;
@@ -129,13 +146,18 @@ class Partido: public plantilla{
 		//	esc.escrituraCandidatos(candi, clave, can.getCandidatos().getTam());
 			esc.escrituraCandidatos(c, clave, can.getCandidatos().getTam());      	
 		}
-		void modificarP(int clave, partido parti){
-			
-			cout<<"cantidad de partidos: "<<tam<<endl;
-			Escritura esc;
-			esc.escrituraPartido(parti.nombre, clave, tam);
+		*/
+		void modificarP( partido parti){
+			int i=1;
+		//	cout<<"cantidad de partidos: "<<tam<<endl;
+			while(parti.clave!=partidos.devolverDato(i).clave){
+				i++;
+			}
+			parti.candidatos = partidos.devolverDato(i).candidatos;
+			partidos.modificar(parti, i);
+			escribir();
 		}
-		
+		/*
 		//Eliminar candidato
 		void eliminar(int clave){
 			int aux = can.getCandidato(clave).partido;
