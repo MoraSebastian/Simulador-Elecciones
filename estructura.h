@@ -30,14 +30,17 @@ struct departamento{
 	int clave;
 	string nombre;
 	Lista<ciudad> municipios;		//Tiene una lista de ciudades
-	long long censo;	//Cantidad de personas que pueden votar en el departamento
+	long long censoPersonas;	//Cantidad de personas que pueden votar en el departamento
 };
 struct partido{
 	int clave;
 	string nombre;
 	Lista<candidato> candidatos;
 };
-
+struct tarjeton{
+	int numero;
+	string nombre;
+};
 
 
 #endif

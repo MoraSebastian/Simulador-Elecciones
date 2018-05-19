@@ -112,38 +112,22 @@ class Partido: public plantilla{
 			return temp;
 		}
 		
-		
-		/**
-		//Metodo para modificar un candidato
-		void modificar(int clave, candidato c){
-		//	Escritura esc;
-			eliminar(clave);
-			int aux = c.partido;
-			can.getCandidatos().modificar(c,clave);	
-			cout<<"partido nuevo: "<<aux<<endl;
-			anadirC(c);
-			cout<<"miembros del partido: "<<partidos[aux].candidatos.getTam()<<endl;
-			//llamo el método para que me escriba el archivo
-			
-			Escritura esc;	
-		//	esc.escrituraCandidatos(candi, clave, can.getCandidatos().getTam());
-			esc.escrituraCandidatos(c, clave, can.getCandidatos().getTam());      	
-		}
-		void modificarP(int clave, partido parti){
-			
-			cout<<"cantidad de partidos: "<<tam<<endl;
-			Escritura esc;
-			esc.escrituraPartido(parti.nombre, clave, tam);
-		}
-		
-		//Eliminar candidato
-		void eliminar(int clave){
-			int aux = can.getCandidato(clave).partido;
-			partidos[aux].candidatos.eliminar(clave);
-			
-			Escritura esc;
-			esc.eliminarCandidato(clave, can.getCandidatos().getTam());
-		}
-		*/			
+		//Obtiene el representante legal del partido
+		candidato representante(int partido){
+			int aux;
+			for(int i = 1;i<partidos.getTam();i++){
+				if(partidos.devolverDato(i).clave == partido){
+					aux = i;
+				}
+			}
+			Lista<candidato> temp = partidos.devolverDato(aux).candidatos;
+			candidato c;
+			for(int i = 1;i<=temp.getTam();i++){
+				if(temp.devolverDato(i).tipoCandidato == 0){
+					c = temp.devolverDato(i);
+				}
+			}
+			return c;
+		}	
 };
 #endif

@@ -8,6 +8,6 @@ class plantilla{
 		int cantidad;
 		bool leido;
 	virtual void leer() = 0; //funcion abstracta
-
+	//virtual void guardar() = 0;
 };
 #endif
