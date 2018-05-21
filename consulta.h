@@ -146,4 +146,5 @@ class consulta{
 		}
 		return suma;
 	}
+	
 };

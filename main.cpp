@@ -1,5 +1,7 @@
 #include <iostream>
 #include "consulta.h"
+#include "simulacion.h"
+#include "ciudad.h"
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 //Se cargan todos los datos
@@ -8,13 +10,29 @@ departamentos deps(cities.getCiudades());
 candidatos can;
 Partido part(can.getCandidatos());
 consulta s(part.getPartidos(),deps.getDeps());
+simulacion sim;
 
+//Reemplaza el - del nombre por un espacio 
+string reemplazar(string str, char original, string reemplazo) {    
+		string aux = str;        
+	    for (int i = 0; i < (int)aux.length(); ++i) {
+	        if(aux[i]==original)
+	        {
+	            aux.replace(i,1,reemplazo);
+	        }
+	    }     
+	    return aux;
+}
 
 //Tarjeton por ciudad
 void tarjetonC(Lista<candidato> c){
 	cout<<endl<<"0. Voto en Blanco."<<endl;
+	int aux = 1;
 	for(int i = 1;i<c.getTam();i++){
-		cout<<i<<". "<<c.devolverDato(i).nombre<<"  "<<c.devolverDato(i).apellido<<"   "<<s.getNombreP(c.devolverDato(i).partido)<<endl;
+		if(c.devolverDato(i).tipoCandidato != 0){
+			cout<<aux<<". "<<c.devolverDato(i).nombre<<"  "<<c.devolverDato(i).apellido<<"   "<<reemplazar(s.getNombreP(c.devolverDato(i).partido),'-'," ")<<endl;
+			aux++;
+		}
 	}
 }
 
@@ -22,10 +40,10 @@ void tarjetonC(Lista<candidato> c){
 void tarjetonP(Lista<candidato> c){
 	cout<<endl<<"0. Voto en Blanco."<<endl;
 	cout<<endl;
-	for(int i = 1;i<c.getTam();i++){
+	for(int i = 1;i<=c.getTam();i++){
 		cout<<i<<". "<<c.devolverDato(i).nombre<<"  "<<c.devolverDato(i).apellido<<endl;
 		cout<<"   "<<s.vice(c.devolverDato(i).vicepresidente).nombre<<" "<<s.vice(c.devolverDato(i).vicepresidente).apellido<<endl;
-		cout<<"   "<<s.getNombreP(c.devolverDato(i).partido)<<endl;
+		cout<<"   "<<reemplazar(s.getNombreP(c.devolverDato(i).partido),'-'," ")<<endl;
 		cout<<endl;
 	}
 }
@@ -38,7 +56,7 @@ void censo(Lista<ciudad> c){
 //Muestra el censo de todo el pais
 void pais(Lista<departamento> d){
 	for(int i = 1;i<= d.getTam();i++){
-		cout<<"Departamento "<<d.devolverDato(i).nombre<<"  Censo: "<<s.censoDepartamento(i)<<endl;
+		cout<<"Departamento "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<"  Censo: "<<s.censoDepartamento(i)<<endl;
 	}
 }
 //Muestra toda la información importante de un candidato
@@ -50,32 +68,40 @@ void mostrarCandidato(candidato c){
 	cout<<"Edad: "<<can.edad(c.fechaNac)<<endl;
 	cout<<"Ciudad Nacimiento: "<<s.nombreCiudad(c.ciudadNac)<<endl;
 	cout<<"Ciudad Residencia: "<<s.nombreCiudad(c.ciudadRes)<<endl;
-	cout<<"Partido: "<<part.getNombre(c.partido)<<endl;
+	cout<<"Partido: "<<reemplazar(s.getNombreP(c.partido),'-'," ")<<endl;
 	cout<<"--------------------------------------------------------"<<endl;
 }
 
 //Muestra información importante de una ciudad
 void mostrarCiudad(ciudad ci){
 	cout<<"Nombre: "<<ci.nombre<<endl;
-	cout<<"Departamento: "<<s.getNombreD(ci.departamento)<<endl;
+	cout<<"Departamento: "<<reemplazar(s.getNombreD(ci.departamento),'-'," ")<<endl;
 	cout<<"Censo: "<<ci.censo<<endl;	
 	cout<<"--------------------------------------------------------"<<endl;
 }
 void menuConsulta(int opcion);
+void menusSimulacion(int opcion);
+
 void menus(int opcion){
 	switch(opcion){
 		case 0:{
-			int decision;
 			cout<<"Bienvenido a la Registraduria General de la Nacion"<<endl<<endl;
 			cout<<"1. Consultar."<<endl;
 			cout<<"2. Simular Elecciones."<<endl;
-			cin>>decision;
-			system("cls");
-			menus(decision);
+			cout<<"3. Modificar."<<endl;
+			cout<<"4. Salir."<< endl;
 			break;
 		}
 		case 1:{
 			menuConsulta(0);
+			break;
+		}
+		case 2:{
+			menusSimulacion(0);
+			break;
+		}
+		case 3:{
+			
 			break;
 		}
 	}
@@ -104,7 +130,7 @@ void menuConsulta(int opcion){
 			int departamento;
 			cout<<"Que departamento desea consultar?"<<endl;
 			for(int i =1;i<= deps.getTam();i++){
-				cout<<i<<". "<<deps.getDeps().devolverDato(i).nombre<<endl;
+				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
 			}
 			cin>>departamento;
 			Lista<ciudad> cd = deps.mostrarCiudades(departamento);
@@ -118,7 +144,7 @@ void menuConsulta(int opcion){
 			int departamento,ci,aux;
 			cout<<"Que departamento desea consultar?"<<endl;
 			for(int i =1;i<= deps.getTam();i++){
-				cout<<i<<". "<<deps.getDeps().devolverDato(i).nombre<<endl;
+				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
 			}
 			cin>>departamento;
 			cout<<endl<<"Que ciudad desea cosultar?"<<endl;
@@ -145,13 +171,13 @@ void menuConsulta(int opcion){
 			int departamento, p;
 			cout<<"Que departamento desea consultar?"<<endl;
 			for(int i =1;i<= deps.getTam();i++){
-				cout<<i<<". "<<deps.getDeps().devolverDato(i).nombre<<endl;
+				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
 			}
 			cin>>departamento;
 			system("cls");
 			cout<<"Que partido desea consultar?"<<endl;
 			for(int i = 1;i< part.getTam();i++){
-				cout<<i<<". "<<part.getPartidos().devolverDato(i).nombre<<endl;
+				cout<<i<<". "<<reemplazar(part.getNombre(i),'-'," ")<<endl;
 			}cin>>p;
 			system("cls");
 			cout<<"Candidatos a la alcaldia en "<<s.getNombreD(departamento)<<endl;
@@ -165,12 +191,13 @@ void menuConsulta(int opcion){
 		case 4:{
 			Lista<candidato> c = part.candidatosPresidencia();
 			for(int i = 1;i<= c.getTam();i++){
-				cout<<"Partido: "<<s.getNombreP(c.devolverDato(i).partido)<<endl;
+				cout<<"Partido: "<<reemplazar(s.getNombreP(c.devolverDato(i).partido),'-'," ")<<endl;
 				cout<<"Presidente"<<endl;
 				mostrarCandidato(c.devolverDato(i));
 				candidato aux = s.vice(c.devolverDato(i).vicepresidente);
 				cout<<"Vicepresidente"<<endl;
 				mostrarCandidato(aux);
+				cout<<"--------------------------------------------------------"<<endl;
 			}
 			break;
 		}
@@ -178,7 +205,7 @@ void menuConsulta(int opcion){
 			int departamento,ci,aux;
 			cout<<"Que departamento desea consultar?"<<endl;
 			for(int i =1;i<= deps.getTam();i++){
-				cout<<i<<". "<<deps.getDeps().devolverDato(i).nombre<<endl;
+				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
 			}
 			cin>>departamento;
 			cout<<endl<<"Que ciudad desea cosultar?"<<endl;
@@ -208,7 +235,7 @@ void menuConsulta(int opcion){
 			int departamento, p;
 			cout<<"Que departamento desea consultar?"<<endl;
 			for(int i =1;i<= deps.getTam();i++){
-				cout<<i<<". "<<deps.getDeps().devolverDato(i).nombre<<endl;
+				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
 			}
 			cin>>departamento;
 			system("cls");
@@ -229,8 +256,8 @@ void menuConsulta(int opcion){
 		case 9:{
 			int p;
 			cout<<"Que partido desea consultar?"<<endl;
-			for(int i = 1;i< part.getTam();i++){
-				cout<<i<<". "<<part.getPartidos().devolverDato(i).nombre<<endl;
+			for(int i = 1;i<= part.getTam();i++){
+				cout<<i<<". "<<reemplazar(part.getNombre(i),'-'," ")<<endl;
 			}cin>>p;
 			cout<<endl<<"Representante Legal de "<<s.getNombreP(p)<<endl<<endl;
 			mostrarCandidato(part.representante(p));
@@ -238,97 +265,38 @@ void menuConsulta(int opcion){
 		}
 	}
 }
+
+//Menus de simulacion
+void menusSimulacion(int opcion){
+	switch(opcion){
+		case 0:{
+			int decision;
+			cout<<"Que simulacion desea realizar?"<<endl;
+			cout<<"1. Simulacion presidencial."<<endl;
+			cin>>decision;
+			system("cls");
+			menusSimulacion(decision);
+			break;
+		}
+		case 1:{
+			sim.simularP(part.candidatosPresidencia(),s.censo() );
+
+			break;
+		}
+	}
+}
 int main(int argc, char** argv) {
-	
-	
-/*	for(int i = 1;i<=cities.getCantidad();i++){
-		cout<<cities.getCiudad(i).nombre<<" ";
-		cout<<cities.getCiudad(i).censo<<endl;
-	}
-
-	cout<<endl<<"DEPARTAMENTOS"<<endl;
-*/	
-/*	for(int i = 1;i<=deps.getTam();i++){
-		cout<<deps.getDept(i).nombre <<endl;
-		Lista<ciudad> c = deps.mostrarCiudades(i);
-		for(int  j= 1;j<= c.getTam();j++){
-			cout<<c.devolverDato(j).nombre<<endl;
-		}
-		cout<<endl;
-	}
-	
-	cout<<endl<<"CANDIDATOS"<<endl;
-*/	
-/*	for(int i = 1;i<=can.getTam();i++){
-		cout<<can.getCandidato(i).clave <<" ";
-		cout<<can.getCandidato(i).nombre <<" ";
-		cout<<can.getCandidato(i).apellido<<endl;
-	}
-	
-	cout<<endl<<"PARTIDOS"<<endl;
-*/	
-/*	for(int i = 1;i<part.getTam();i++){
-		cout<<part.getPartido(i).nombre <<endl;;
-		Lista<candidato> c = part.consultarC(i);
-		for(int j = 1;j<= c.getTam();j++){
-			cout<<c.devolverDato(j).clave <<" "<<c.devolverDato(j).ciudadRes<<endl;
-		}
-		cout<<endl;
-	}
-
-	//Consulta de candidatos en un departamento de un partido politico
-	Lista<candidato> c = s.consultaDepartamento(3,2);
-	cout<<s.getNombreD(3)<<"  "<<s.getNombreP(3)<<endl;
-	for(int i =1;i<=c.getTam();i++ ){
-		cout<<s.nombreCiudad(c.devolverDato(i).ciudadRes)<<" ";
-		cout<<c.devolverDato(i).nombre<<" "<<c.devolverDato(i).apellido<<" ";
-		cout<<can.edad(c.devolverDato(i).fechaNac)<<" ";
-		cout<<c.devolverDato(i).sexo<<endl;
-	}
-	cout<<endl;
-	
-	//Consulta de los candidatos a alcaldía de un partido político 
-	c = part.consultarC(6);
-	cout<<part.getNombre(6)<<endl;
-	for(int i = 1;i<= c.getTam();i++){
-		cout<<s.nombreCiudad(c.devolverDato(i).ciudadRes)<<" ";
-		cout<<c.devolverDato(i).nombre<<" "<<c.devolverDato(i).apellido<<" ";
-		cout<<can.edad(c.devolverDato(i).fechaNac)<<" ";
-		cout<<c.devolverDato(i).sexo<<endl;
-	}
-	cout<<endl;
-	
-	//Consulta formulas presidenciales
-	c = part.candidatosPresidencia();
-	
-	for(int i =1;i<=c.getTam();i++){
-		cout<<"Presidente: ";
-		cout<<c.devolverDato(i).nombre<<" "<<c.devolverDato(i).apellido<<" ";
-		cout<<can.edad(c.devolverDato(i).fechaNac)<<" ";
-		cout<<s.nombreCiudad(c.devolverDato(i).ciudadNac)<<" ";
-		cout<<c.devolverDato(i).estadoCivil<<endl;
-		candidato cani = s.vice(c.devolverDato(i).vicepresidente,can.getCandidatos());
-		cout<<"Vicepresidente: ";
-		cout<<cani.nombre<<" "<<cani.apellido<<" ";
-		cout<<can.edad(cani.fechaNac)<<" ";
-		cout<<s.nombreCiudad(cani.ciudadNac)<<" ";
-		cout<<cani.estadoCivil<<endl;
-		cout<<endl;
-	}
-	
-	
-	//Candidatos a la alcaldia de una ciudad
-	c = s.alcaldia(1);
-	cout<<"Alcaldia: "<<s.nombreCiudad(1)<<endl;
-	for(int i= 1;i< c.getTam();i++){
-		cout<<c.devolverDato(i).nombre<<" "<<c.devolverDato(i).apellido<<" ";
-		cout<<can.edad(c.devolverDato(i).fechaNac)<<" ";
-		cout<<part.getNombre(c.devolverDato(i).partido)<<endl;
-	}
-	
-	//Censo de Antioquia
-	cout<<endl<<"Censo: "<<deps.getDept(2).nombre<<" "<<s.censoDepartamento(2)<<endl;
-	cout<<"Censo Colombia: "<<s.censo()<<endl;*/
-	menus(0);
+		int decision;
+		do{
+			menus(0);
+			cin>>decision;
+			system("cls");
+			if(decision != 4){
+				menus(decision);
+				system("pause");
+				system("cls");
+			}
+		}while(decision!= 4);
+		cout<<"!GRACIAS!"<<endl;
 	return 0;
 }

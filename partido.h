@@ -35,7 +35,7 @@ class Partido: public plantilla{
 					archEntrada >> clave;
 					archEntrada >> nombre;
 					par.clave = clave;
-					par.nombre = reemplazar(nombre, '-', " ");
+					par.nombre = nombre;
 					anadirPar(par);
 				}
 				archEntrada.close();
@@ -50,7 +50,7 @@ class Partido: public plantilla{
 		    	exit(1);
 			}    
 			for (int i=1; i<=partidos.getTam(); i++){
-				archsalida1<<partidos.devolverDato(i).clave<<" "<<reemplazar(partidos.devolverDato(i).nombre, ' ',"-");						   
+				archsalida1<<partidos.devolverDato(i).clave<<" "<<partidos.devolverDato(i).nombre;						   
 				if(i<partidos.getTam()){
 					archsalida1<<endl;
 				}
@@ -157,16 +157,7 @@ class Partido: public plantilla{
 			}
 			return c;
 		}	
-		string reemplazar(string str, char original, string reemplazo) {    
-			string aux = str;        
-		    for (int i = 0; i < (int)aux.length(); ++i) {
-		        if(aux[i]==original)
-		        {
-		            aux.replace(i,1,reemplazo);
-		        }
-		    }     
-		    return aux;
-		}
+		
 };
 
 

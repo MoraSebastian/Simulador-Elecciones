@@ -43,5 +43,18 @@ struct tarjeton{
 };
 
 
+struct voto{
+	int pos;
+	string nombreCand;
+	int partido;
+	long long votos;
+	float porcentaje;
+};
+
+struct resultados{
+	string nombreCiudad;
+	Lista<voto> resultado;
+};
+
 #endif
 

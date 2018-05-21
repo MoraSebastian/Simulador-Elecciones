@@ -61,7 +61,7 @@ class departamentos: public plantilla{
 					archEntrada >> clave;
 					archEntrada >> nombre;
 					dep.clave = clave;
-					dep.nombre = reemplazar(nombre, '-'," ");
+					dep.nombre = nombre;
 					agregarDept(dep);
 					this->cantidad++;
 				}
@@ -77,7 +77,7 @@ class departamentos: public plantilla{
 		    	exit(1);
 			}    
 			for (int i=1; i<=dep.getTam(); i++){
-				archsalida1<<dep.devolverDato(i).clave<<" "<<reemplazar(dep.devolverDato(i).nombre, ' ',"-")<<" "<<dep.devolverDato(i).censo ;
+				archsalida1<<dep.devolverDato(i).clave<<" "<<dep.devolverDato(i).nombre;
 				if(i<dep.getTam()){
 					archsalida1<<endl;
 				}
@@ -102,15 +102,8 @@ class departamentos: public plantilla{
 		departamento getDept(int i){
 			return dep.devolverDato(i);
 		}
-		string reemplazar(string str, char original, string reemplazo) {    
-			string aux = str;        
-		    for (int i = 0; i < (int)aux.length(); ++i) {
-		        if(aux[i]==original)
-		        {
-		            aux.replace(i,1,reemplazo);
-		        }
-		    }     
-		    return aux;
-		}
+		
 };
 #endif
+
+

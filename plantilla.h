@@ -8,9 +8,7 @@ class plantilla{
 	protected:
 		int cantidad;
 		bool leido;
-	virtual void leer() = 0; //funcion abstracta
-	virtual void escribir() = 0; //funcion abstracta
+		virtual void leer() = 0; //funcion abstracta
+		virtual void escribir() = 0; //funcion abstracta
 };
 #endif
-
-

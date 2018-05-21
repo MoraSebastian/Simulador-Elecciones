@@ -1,154 +1,77 @@
 #include "plantilla.h"
+#include <iostream>
 #include "estructura.h"
-#include "partido.h"
-#include "departamento.h"
+#include<stdlib.h>
+#include<time.h>
+
+using namespace std;
 class simulacion: public plantilla{
-	Lista<departamento> dpts;
-	Lista<partido> pts;
-	
 	public: 
-	void leer(){
-		cout<<"HOLA";
-	}
-	simulacion(Lista<partido> p, Lista<departamento> d){
-		this->dpts = d;
-		this->pts = p;
-	}
-	Lista<departamento> getDpts(){
-		return dpts;
-	}
-	
-	string getNombreD(int departamento){
-		int aux;
-		for(int i= 1;i<= dpts.getTam();i++){
-			if(dpts.devolverDato(i).clave == departamento){
-				aux = i;
-			}
+		//Funciones herdadas de plantilla	
+		void leer(){
+			int i ;
 		}
-		return dpts.devolverDato(aux).nombre;
-	}
-	
-	string getNombreP(int partido){
-		int aux;
-		for(int i= 1;i<= pts.getTam();i++){
-			if(pts.devolverDato(i).clave == partido){
-				aux = i;
-			}
-		}
-		return pts.devolverDato(aux).nombre;
-	}
-	/* Metodo que recibe un @param partido y @param departamento
-	los cuales se utilizaran para retornar una lista con todos los candidatos
-	que se presentan a alcaldia de el partido en dicha ciudad
-	*/
-	Lista<candidato> consultaDepartamento(int partido, int departamento){
-		int auxp,auxd;
-		Lista<candidato> temp;
+		void escribir(){cout<<"escribe";}
 		
-		//Se busca el departamento al que se hace referencia
-		for(int i = 1; i<=dpts.getTam();i++){
-			if(dpts.devolverDato(i).clave == departamento){
-				auxd = i;
-			}
+		//Constructor
+		simulacion(){		
 		}
-		//Se busca el partido al que se hace referencia
-		for(int i = 1; i<=pts.getTam();i++){
-			if(pts.devolverDato(i).clave == partido){
-				auxp = i;
-			}
-		}
-		Lista<ciudad> ci = dpts.devolverDato(auxd).municipios;
-		Lista<candidato> c= pts.devolverDato(auxp).candidatos;
 		
-		//Compara las listas de ciuddes y candidatos para encontrar los candidadtos a alcaldia a dicha ciudad
-		for(int i = 1;i<= ci.getTam();i++){
-			for(int j = 1;j<=c.getTam();j++){
-				if(c.devolverDato(j).ciudadRes == ci.devolverDato(i).clave && c.devolverDato(j).tipoCandidato != 1 && c.devolverDato(j).tipoCandidato!=3){
-					temp.anadirFin(c.devolverDato(j));
+		
+		//Simula las elecciones presidenciales
+		void simularP(Lista<candidato> c, long long censo){
+			Lista<voto> temp; //Lista con los resultaos. la que se devuelve
+			long long aux = censo;
+			voto v;//Se va a ir llenado con la información de los candidatos
+			
+			
+			v.nombreCand = "Voto en Blanco";
+			v.partido = 0;
+			v.votos = rand()%aux;
+			aux -= v.votos;
+			v.porcentaje = porcentaje(v.votos,censo);
+			temp  = ordenar(v,temp);
+			v.nombreCand = "Votos Nulos";
+			v.votos = rand()%aux;
+			v.partido = 0;
+			temp = ordenar(v,temp);
+			for(int i = 1;i<= c.getTam();i++){
+				v.nombreCand = c.devolverDato(i).nombre+" "+c.devolverDato(i).apellido;
+				v.partido = c.devolverDato(i).partido;
+				long long lim =1000000 +rand()%(1200000-1000000);
+				v.votos =lim+ rand()%(aux-lim);
+				aux -= v.votos;
+				v.porcentaje = porcentaje(v.votos,censo);
+				temp = ordenar(v,temp);
+			v.porcentaje = porcentaje(v.votos,censo);
+			}
+			v.nombreCand = "Abstinencia";
+			v.votos = aux;
+			v.partido = 0;
+			v.porcentaje = porcentaje(v.votos,censo);
+			temp = ordenar(v,temp);
+			for(int i = 1;i<=temp.getTam();i++){
+				cout<<i<<" "<<temp.devolverDato(i).nombreCand<<" "<<temp.devolverDato(i).votos<<" "<<temp.devolverDato(i).porcentaje<<endl;
+			}			
+		}
+		
+		//Obtiene el porcentaje de los votos originales
+		float porcentaje(long long dato, long long original){
+			return(dato*100)/original;
+		}
+		
+		//Ordena la lista con tal de que siempre el de mayor cantidad de votos quede de primero
+		Lista<voto> ordenar(voto v, Lista<voto> datos){
+			voto aux;
+			voto temp = v;
+			for(int i = 1;i<= datos.getTam();i++){
+				aux = datos.devolverDato(i);
+				if(temp.votos>aux.votos){
+					datos.modificar(temp,i);
+					temp = aux;
 				}
 			}
+			datos.anadirFin(temp);
+			return datos;
 		}
-		
-		return temp;
-	}
-	
-	/*Metodo que recibe el entero de una ciudad y devuelve el nombre de la misma.*/
-	string nombreCiudad(int cd){
-		string nombre;
-		for(int i = 1;i<= dpts.getTam();i++){
-			Lista<ciudad> city = dpts.devolverDato(i).municipios;
-			for(int j = 1;j<= city.getTam();j++){
-				if(city.devolverDato(j).clave ==cd){
-					nombre = city.devolverDato(j).nombre;
-				}
-			}
-		}
-		
-		return nombre;
-	}
-	
-	//realiza la conversión del indice del vicepresidente a candidato
-	candidato vice(int vice, Lista<candidato> can){
-		candidato ca;
-		for(int i = 1;i<= pts.getTam();i++){
-			Lista<candidato> c = pts.devolverDato(i).candidatos;
-			for(int j = 1;j<= c.getTam();j++){
-				if(c.devolverDato(j).clave == vice){
-					ca = c.devolverDato(j);
-				}
-			}
-		}
-		return ca;
-	}
-	
-	//Dada una ciudad se muestra por partido los candidatos a dicha alcaldia
-	Lista<candidato> alcaldia(int cd){
-		int aux;
-		Lista<candidato> temp;
-		for(int i = 1;i<= dpts.getTam();i++){
-			Lista<ciudad> city = dpts.devolverDato(i).municipios;
-			for(int j = 1;j<= city.getTam();j++){
-				if(city.devolverDato(j).clave ==cd){
-					aux = j;
-				}
-			}
-		}
-		
-		for(int i = 1;i<= pts.getTam();i++){
-			Lista<candidato> c = pts.devolverDato(i).candidatos;
-			for(int j = 1;j<= c.getTam();j++){
-				if(c.devolverDato(j).ciudadRes == aux && c.devolverDato(j).tipoCandidato!=1 && c.devolverDato(j).tipoCandidato!=3){
-					temp.anadirFin(c.devolverDato(j));
-				}
-			}
-		}
-		return temp;
-	}
-	
-	//Censo electoral por departamento
-	long long censoDepartamento(int departamento){
-		long long suma = 0;
-		int aux;
-		for(int i = 1;i<=dpts.getTam();i++){
-			if(dpts.devolverDato(i).clave == departamento){
-				aux = i;
-			}
-		}
-		
-		Lista<ciudad> c  = dpts.devolverDato(aux).municipios;
-		for(int i= 1;i<=c.getTam();i++){
-			suma+= c.devolverDato(i).censo;
-		}
-		return suma;
-	}
-	
-	//Censo total del pais
-	long long censo(){
-		long long suma = 0;
-		for(int i =1;i<= dpts.getTam();i++){
-			cout<<censoDepartamento(i)<<endl;
-			suma += censoDepartamento(i);
-		}
-		return suma;
-	}
 };
