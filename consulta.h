@@ -1,3 +1,5 @@
+#ifndef CONSULTA
+#define CONSULTA
 #include "plantilla.h"
 #include "estructura.h"
 #include "partido.h"
@@ -113,7 +115,7 @@ class consulta{
 		for(int i = 1;i<= pts.getTam();i++){
 			Lista<candidato> c = pts.devolverDato(i).candidatos;
 			for(int j = 1;j<= c.getTam();j++){
-				if(c.devolverDato(j).ciudadRes == aux && c.devolverDato(j).tipoCandidato!=1 && c.devolverDato(j).tipoCandidato!=3){
+				if(c.devolverDato(j).ciudadRes == aux && c.devolverDato(j).tipoCandidato!=1 && c.devolverDato(j).tipoCandidato!=0 && c.devolverDato(j).tipoCandidato!=3){
 					temp.anadirFin(c.devolverDato(j));
 				}
 			}
@@ -148,3 +150,4 @@ class consulta{
 	}
 	
 };
+#endif

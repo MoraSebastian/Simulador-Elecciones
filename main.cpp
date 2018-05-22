@@ -29,10 +29,10 @@ void tarjetonC(Lista<candidato> c){
 	cout<<endl<<"0. Voto en Blanco."<<endl;
 	int aux = 1;
 	for(int i = 1;i<c.getTam();i++){
-		if(c.devolverDato(i).tipoCandidato != 0){
+		
 			cout<<aux<<". "<<c.devolverDato(i).nombre<<"  "<<c.devolverDato(i).apellido<<"   "<<reemplazar(s.getNombreP(c.devolverDato(i).partido),'-'," ")<<endl;
 			aux++;
-		}
+		
 	}
 }
 
@@ -273,6 +273,7 @@ void menusSimulacion(int opcion){
 			int decision;
 			cout<<"Que simulacion desea realizar?"<<endl;
 			cout<<"1. Simulacion presidencial."<<endl;
+			cout<<"2. Simulacion elecciones para las alcaldias."<<endl;
 			cin>>decision;
 			system("cls");
 			menusSimulacion(decision);
@@ -281,6 +282,26 @@ void menusSimulacion(int opcion){
 		case 1:{
 			sim.simularP(part.candidatosPresidencia(),s.censo() );
 
+			break;
+		}
+		case 2:{								
+			int departamento,ci,aux, i, aux2;			
+			cout<<"Que departamento ?"<<endl;
+			for(i =1;i<= deps.getTam();i++){
+				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
+			}
+			cin>>departamento;
+			cout<<endl<<"A que ciudad desea hacer la simulacion?"<<endl;
+			Lista<ciudad> cd = deps.mostrarCiudades(departamento);
+			for(i = 1;i<=cd.getTam();i++){
+				cout<<i<<". "<<cd.devolverDato(i).nombre<<endl;
+			}cin>>ci;
+			i=1;
+			while(i!=ci){				
+				i++;
+			}
+			aux = cd.devolverDato(i).clave;			
+			sim.simularA(s.alcaldia(aux), cd.devolverDato(i).censo, cd.devolverDato(i).nombre);							
 			break;
 		}
 	}
