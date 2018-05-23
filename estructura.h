@@ -37,18 +37,27 @@ struct partido{
 	string nombre;
 	Lista<candidato> candidatos;
 };
-struct tarjeton{
-	int numero;
-	string nombre;
+struct votoPC{
+	long long votos;
+	float porcentaje;
+	int ciudad;
 };
 
 
 struct voto{
-	int pos;
 	string nombreCand;
 	int partido;
 	long long votos;
 	float porcentaje;
+};
+
+struct votoP{
+	string nombreCand;
+	int partido;
+	int vice;
+	long long votos;
+	float porcentaje;
+	votoPC *votoP;
 };
 
 struct resultados{

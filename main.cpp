@@ -280,8 +280,22 @@ void menusSimulacion(int opcion){
 			break;
 		}
 		case 1:{
-			sim.simularP(part.candidatosPresidencia(),s.censo() );
-
+			int candidato;
+			sim.simularP(cities.getMun(),part.candidatosPresidencia());
+			for(int i = 1;i<=sim.getPresidentes().getTam();i++){
+				string nombreV;
+				nombreV = s.vice(sim.getPresidentes().devolverDato(i).vice).nombre +" "+ s.vice(sim.getPresidentes().devolverDato(i).vice).apellido;
+				cout<<"Presidente: "<<sim.getPresidentes().devolverDato(i).nombreCand<<endl;
+				cout<<"Vicepresidente: "<<nombreV<<endl;
+				cout<<"-----------------------------------------------------------------------------------------"<<endl;
+				for(int j = 1;j<= cities.getMun().getTam();j++){
+					cout<<s.nombreCiudad(sim.getPresidentes().devolverDato(i).votoP[j].ciudad)<<"    ";
+					cout<<sim.getPresidentes().devolverDato(i).votoP[j].votos<<"   ";
+					cout<<sim.getPresidentes().devolverDato(i).votoP[j].porcentaje<<"%"<<endl;
+				}
+				cout<<"VOTOS TOTALES: "<<sim.getPresidentes().devolverDato(i).votos<<"    "<<sim.getPresidentes().devolverDato(i).porcentaje<<"%"<<endl;
+				cout<<"-----------------------------------------------------------------------------------------"<<endl;
+			}
 			break;
 		}
 		case 2:{								
@@ -321,3 +335,5 @@ int main(int argc, char** argv) {
 		cout<<"!GRACIAS!"<<endl;
 	return 0;
 }
+
+
