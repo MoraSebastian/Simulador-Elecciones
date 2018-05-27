@@ -2,6 +2,7 @@
 #include "consulta.h"
 #include "simulacion.h"
 #include "ciudad.h"
+#include "string.h"
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 //Se cargan todos los datos
@@ -11,6 +12,7 @@ candidatos can;
 Partido part(can.getCandidatos());
 consulta s(part.getPartidos(),deps.getDeps());
 simulacion sim;
+bool simulacion = false;
 
 //Reemplaza el - del nombre por un espacio 
 string reemplazar(string str, char original, string reemplazo) {    
@@ -88,7 +90,6 @@ void menus(int opcion){
 			cout<<"Bienvenido a la Registraduria General de la Nacion"<<endl<<endl;
 			cout<<"1. Consultar."<<endl;
 			cout<<"2. Simular Elecciones."<<endl;
-			cout<<"3. Modificar."<<endl;
 			cout<<"4. Salir."<< endl;
 			break;
 		}
@@ -108,6 +109,7 @@ void menus(int opcion){
 }
 
 void menuConsulta(int opcion){
+	int i;
 	switch(opcion){
 		case 0:{
 			int decision;
@@ -121,6 +123,7 @@ void menuConsulta(int opcion){
 			cout<<"7. Censo de un departamento."<<endl;
 			cout<<"8. Censo total del pais."<<endl;
 			cout<<"9. Mostrar el representante legal de un partido."<<endl;
+			cout <<"10. Mostrar todos los partidos legalmente reconocidos." << endl;
 			cin>>decision;
 			system("cls");
 			menuConsulta(decision);
@@ -129,7 +132,7 @@ void menuConsulta(int opcion){
 		case 1:{
 			int departamento;
 			cout<<"Que departamento desea consultar?"<<endl;
-			for(int i =1;i<= deps.getTam();i++){
+			for(i =1;i<= deps.getTam();i++){
 				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
 			}
 			cin>>departamento;
@@ -143,16 +146,16 @@ void menuConsulta(int opcion){
 		case 2:{
 			int departamento,ci,aux;
 			cout<<"Que departamento desea consultar?"<<endl;
-			for(int i =1;i<= deps.getTam();i++){
+			for(i =1;i<= deps.getTam();i++){
 				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
 			}
 			cin>>departamento;
 			cout<<endl<<"Que ciudad desea cosultar?"<<endl;
 			Lista<ciudad> cd = deps.mostrarCiudades(departamento);
-			for(int i = 1;i<=cd.getTam();i++){
+			for(i = 1;i<=cd.getTam();i++){
 				cout<<i<<". "<<cd.devolverDato(i).nombre<<endl;
 			}cin>>ci;
-			for(int i = 1;i<=cd.getTam();i++){
+			for(i = 1;i<=cd.getTam();i++){
 				if(i == ci){
 					aux = cd.devolverDato(i).clave;
 				}
@@ -170,27 +173,27 @@ void menuConsulta(int opcion){
 		case 3:{
 			int departamento, p;
 			cout<<"Que departamento desea consultar?"<<endl;
-			for(int i =1;i<= deps.getTam();i++){
+			for(i =1;i<= deps.getTam();i++){
 				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
 			}
 			cin>>departamento;
 			system("cls");
 			cout<<"Que partido desea consultar?"<<endl;
-			for(int i = 1;i< part.getTam();i++){
+			for(i = 1;i< part.getTam();i++){
 				cout<<i<<". "<<reemplazar(part.getNombre(i),'-'," ")<<endl;
 			}cin>>p;
 			system("cls");
 			cout<<"Candidatos a la alcaldia en "<<s.getNombreD(departamento)<<endl;
 			cout<<endl;
 			Lista<candidato> c = s.consultaDepartamento(p,departamento);
-			for(int i = 1;i<=c.getTam();i++){
+			for(i = 1;i<=c.getTam();i++){
 				mostrarCandidato(c.devolverDato(i));
 			}
 			break;
 		}
 		case 4:{
 			Lista<candidato> c = part.candidatosPresidencia();
-			for(int i = 1;i<= c.getTam();i++){
+			for(i = 1;i<= c.getTam();i++){
 				cout<<"Partido: "<<reemplazar(s.getNombreP(c.devolverDato(i).partido),'-'," ")<<endl;
 				cout<<"Presidente"<<endl;
 				mostrarCandidato(c.devolverDato(i));
@@ -204,16 +207,16 @@ void menuConsulta(int opcion){
 		case 5:{
 			int departamento,ci,aux;
 			cout<<"Que departamento desea consultar?"<<endl;
-			for(int i =1;i<= deps.getTam();i++){
+			for(i =1;i<= deps.getTam();i++){
 				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
 			}
 			cin>>departamento;
 			cout<<endl<<"Que ciudad desea cosultar?"<<endl;
 			Lista<ciudad> cd = deps.mostrarCiudades(departamento);
-			for(int i = 1;i<=cd.getTam();i++){
+			for(i = 1;i<=cd.getTam();i++){
 				cout<<i<<". "<<cd.devolverDato(i).nombre<<endl;
 			}cin>>ci;
-			for(int i = 1;i<=cd.getTam();i++){
+			for(i = 1;i<=cd.getTam();i++){
 				if(i == ci){
 					aux = cd.devolverDato(i).clave;
 				}
@@ -234,7 +237,7 @@ void menuConsulta(int opcion){
 		case 7:{
 			int departamento, p;
 			cout<<"Que departamento desea consultar?"<<endl;
-			for(int i =1;i<= deps.getTam();i++){
+			for(i =1;i<= deps.getTam();i++){
 				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
 			}
 			cin>>departamento;
@@ -256,32 +259,142 @@ void menuConsulta(int opcion){
 		case 9:{
 			int p;
 			cout<<"Que partido desea consultar?"<<endl;
-			for(int i = 1;i<= part.getTam();i++){
+			for(i = 1;i<= part.getTam();i++){
 				cout<<i<<". "<<reemplazar(part.getNombre(i),'-'," ")<<endl;
 			}cin>>p;
 			cout<<endl<<"Representante Legal de "<<s.getNombreP(p)<<endl<<endl;
 			mostrarCandidato(part.representante(p));
 			break;
 		}
+		case 10:{
+			cout << "Partidos legalmente reconocidos" << endl;
+			for(i = 1; i<=part.getTam() ; i++){
+				cout << i <<". " << reemplazar(part.getNombre(i), '-', " ") << endl;
+			}
+			break;
+		}
 	}
 }
 
+void menuReportes(int opcion){
+	int decision, i, departamento;
+	switch(opcion){
+		case 1:{
+			cout << "De cual departamento desea ver el reporte general?" << endl;
+			for(i = 1;i<= deps.getTam();i++){
+				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
+			}
+			cin >> decision;
+			votoEst informe = sim.informeGeneralDep(decision);
+			cout << "Total votos:" << informe.votos << endl;
+			cout << "Votos en blanco:" << informe.votosBlanco << " "<< informe.porcentajeBlanco << "%" << endl;
+			cout << "Votos nulos:" << informe.votosNulos << " "<< informe.porcentajeNulos <<"%" << endl;
+			cout << "Abstencion:" << informe.votosAbstencion << " "<< informe.porcentajeAbst <<"%" << endl;
+			
+			break;
+		}
+		case 2:{
+			Lista<candidato> c;
+			estadisticas est;
+			cout << "De cual departamento desea ver el reporte detallado?" << endl;
+			for(i = 1;i<= deps.getTam();i++){
+				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
+			}
+			cin >> departamento;
+			system("cls");
+			for (i = 1; i<= part.getTam(); i++){
+				c = s.consultaDepartamento(i,departamento);
+				est = sim.reporteDetallado(c);
+				if(est.totalCandidatos!=0){
+					cout << "Partido: " << s.getNombreP(i) << endl;
+					cout << "Cantidad de hombres del partido ganadores para alcalde en el departamento: " << est.cantidadHombres << " "<< est.porcentajeHombres << "%" << endl;
+					cout << "Cantidad de mujeres del partido ganadores para alcalde en el departamento: " << est.cantidadMujeres << " "<< est.porcentajeMujeres << "%" << endl;
+					cout << "Total candidatos del partido ganadores en el departamento: " << est.totalCandidatos << endl << endl;		
+				}		
+			}
+			break;
+			
+		}
+		case 3:{
+			Lista<candidato> c;
+			estadisticas est;
+			for (i = 1; i<= part.getTam(); i++){
+				c = s.consultaNacional(i);
+				est = sim.reporteDetallado(c);
+				cout << "Partido: " << s.getNombreP(i) << endl;
+				cout << "Cantidad de hombres del partido ganadores para alcalde en el departamento: " << est.cantidadHombres << " "<< est.porcentajeHombres << "%" << endl;
+				cout << "Cantidad de mujeres del partido ganadores para alcalde en el departamento: " << est.cantidadMujeres << " "<< est.porcentajeMujeres << "%" << endl;
+				cout << "Total candidatos del partido ganadores en el departamento: " << est.totalCandidatos <<" " <<  est.porcentajeTotal << "%" <<   endl << endl;				
+			}
+			break;
+		}
+		case 4:{
+		
+			break;
+		}
+		case 5:{
+			votoEst informe = sim.reportePresidenciaGeneral();
+			cout << "Informe general elecciones presidenciales" << endl;
+			cout << "Total votos:" << informe.votos << endl;
+			cout << "Votos en blanco:" << informe.votosBlanco << " "<< informe.porcentajeBlanco << "%" << endl;
+			cout << "Votos nulos:" << informe.votosNulos << " "<< informe.porcentajeNulos <<"%" << endl;
+			cout << "Abstencion:" << informe.votosAbstencion << " "<< informe.porcentajeAbst <<"%" << endl;
+			break;
+		}
+		case 6:{
+			
+			break;
+		}
+		case 7:{
+			
+			break;
+		}
+		case 8:{
+			Lista <votoP> segV = sim.segundaVuelta();
+			if (segV.getTam()!=0){
+				cout << "Es necesaria una segunda vuelta presidencial entre los siguientes candidatos: " << endl;
+				cout << "Candidato 1: " << segV.devolverDato(1).nombreCand << endl;
+				cout << "Candidato 2: " << segV.devolverDato(2).nombreCand << endl;
+			} else {
+				cout << "No es necesaria una segunda vuelta presidencial" << endl;
+			}
+			break;
+		}
+		default:{
+			
+			break;
+		}
+	}
+}
 //Menus de simulacion
 void menusSimulacion(int opcion){
+	int aux;
+	if (!simulacion){														//Se realiza la simulacion para todo el pais
+		sim.simularP(cities.getMun(),part.candidatosPresidencia());			//Simulacion de las elecciones presidenciales
+		int departamento,ci,aux, i, j, aux2;				
+			for(i =1;i<= deps.getTam();i++){								//Simulacion de las eleccions de alcaldia para cada ciudad
+				Lista<ciudad> cd = deps.mostrarCiudades(i);
+				for (j=1; j<= cd.getTam(); j++){
+					aux = cd.devolverDato(j).clave;			
+					sim.simularA(s.alcaldia(aux), cd.devolverDato(j).censo, cd.devolverDato(j).nombre, cd.devolverDato(j).departamento);
+				}
+			}
+		simulacion=true;
+	}	
 	switch(opcion){
+		int decision;
 		case 0:{
-			int decision;
-			cout<<"Que simulacion desea realizar?"<<endl;
+			cout<<"De cual simulacion desea mostrar los resultados?"<<endl;
 			cout<<"1. Simulacion presidencial."<<endl;
 			cout<<"2. Simulacion elecciones para las alcaldias."<<endl;
+			cout<<"3. Reporte elecciones." << endl;
 			cin>>decision;
 			system("cls");
-			menusSimulacion(decision);
+			menusSimulacion(decision);	
 			break;
 		}
 		case 1:{
 			int candidato;
-			sim.simularP(cities.getMun(),part.candidatosPresidencia());
 			for(int i = 1;i<=sim.getPresidentes().getTam();i++){
 				string nombreV;
 				nombreV = s.vice(sim.getPresidentes().devolverDato(i).vice).nombre +" "+ s.vice(sim.getPresidentes().devolverDato(i).vice).apellido;
@@ -298,14 +411,14 @@ void menusSimulacion(int opcion){
 			}
 			break;
 		}
-		case 2:{								
+		case 2:{
 			int departamento,ci,aux, i, aux2;			
-			cout<<"Que departamento ?"<<endl;
+			cout<<"De cual departamento desea ver las ciudades ?"<<endl;
 			for(i =1;i<= deps.getTam();i++){
 				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
 			}
 			cin>>departamento;
-			cout<<endl<<"A que ciudad desea hacer la simulacion?"<<endl;
+			cout<<endl<<"De cual ciudad desea ver los resultados de la simulacion?"<<endl;
 			Lista<ciudad> cd = deps.mostrarCiudades(departamento);
 			for(i = 1;i<=cd.getTam();i++){
 				cout<<i<<". "<<cd.devolverDato(i).nombre<<endl;
@@ -315,11 +428,29 @@ void menusSimulacion(int opcion){
 				i++;
 			}
 			aux = cd.devolverDato(i).clave;			
-			sim.simularA(s.alcaldia(aux), cd.devolverDato(i).censo, cd.devolverDato(i).nombre);							
+			Lista <voto> listaCand = sim.getResultAlcaldia(s.nombreCiudad(aux)).resultado;
+			for (i=1; i<=listaCand.getTam(); i++){
+				cout << i <<". " << listaCand.devolverDato(i).nombreCand << "\t" << listaCand.devolverDato(i).votos << "\t" << listaCand.devolverDato(i).porcentaje << "%"<<endl;
+			}		
 			break;
 		}
+		case 3:{
+			cout << "1. Reporte general de alcaldias por departamento " << endl;
+			cout << "2. Reporte detallado de alcaldias por departamento " << endl;
+			cout << "3. Reporte total nacional de alcaldias" << endl;
+			cout << "4. Reporte general de presidencia por departamento " << endl;
+			cout << "5. Reporte general nacional de presidencia" << endl;
+			cout << "6. Reporte detallado de presidencia por departamento " << endl;
+			cout << "7. Reporte detallado nacional de presidencia" << endl;
+			cout << "8. Consulta segunda vuelta" << endl;
+			cin >>decision;
+			menuReportes(decision);
+			break;
+		}
+		
 	}
 }
+
 int main(int argc, char** argv) {
 		int decision;
 		do{

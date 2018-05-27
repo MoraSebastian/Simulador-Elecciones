@@ -41,9 +41,28 @@ struct votoPC{
 	long long votos;
 	float porcentaje;
 	int ciudad;
+	int departamento;
 };
 
-
+struct votoEst{
+	long long votos;
+	long long votosBlanco;
+	long long votosAbstencion;
+	long long votosNulos;
+	float porcentajeBlanco;
+	float porcentajeAbst;
+	float porcentajeNulos;
+	int departamento;
+};
+struct estadisticas{
+	int partido;
+	int cantidadHombres;
+	int cantidadMujeres;
+	int totalCandidatos;
+	float porcentajeHombres;
+	float porcentajeMujeres;
+	float porcentajeTotal;	
+};
 struct voto{
 	string nombreCand;
 	int partido;
@@ -62,6 +81,8 @@ struct votoP{
 
 struct resultados{
 	string nombreCiudad;
+	int departamento;
+	int ganador;
 	Lista<voto> resultado;
 };
 

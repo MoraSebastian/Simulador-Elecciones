@@ -36,6 +36,10 @@ class consulta{
 		}
 		return pts.devolverDato(aux).nombre;
 	}
+	/*Metodo que recibe un partido y retorna una lista con los candidatos */
+	Lista<candidato> consultaNacional(int partido){
+		return pts.devolverDato(partido).candidatos;
+	}
 	/* Metodo que recibe un @param partido y @param departamento
 	los cuales se utilizaran para retornar una lista con todos los candidatos
 	que se presentan a alcaldia de el partido en dicha ciudad
@@ -108,7 +112,7 @@ class consulta{
 			Lista<ciudad> city = dpts.devolverDato(i).municipios;
 			for(int j = 1;j<= city.getTam();j++){
 				if(city.devolverDato(j).clave ==cd){
-					aux =city.devolverDato(j).clave ;
+					aux =city.devolverDato(j).clave;
 				}
 			}
 		}
@@ -148,6 +152,5 @@ class consulta{
 		}
 		return suma;
 	}
-	
 };
 #endif

@@ -128,10 +128,10 @@ class ciudades: public plantilla{
 			return mun;
 		}
 		
-				
+		/*		
 		void anadirADept(){
 			//Aun no hago esto
-		}
+		}*/
 	
 		/**Método que no recibe parametros, pero su @return la cantidad de ciudades en el arreglo*/
 		int getCantidad(){

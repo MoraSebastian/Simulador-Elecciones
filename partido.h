@@ -17,6 +17,7 @@ class Partido: public plantilla{
 		//anadir partido
 		int anadirPar(partido par){
 			partidos.anadirFin(par);
+			
 			return 0;
 		}		
 		//Lee el archivo
@@ -61,7 +62,7 @@ class Partido: public plantilla{
 		 	rename("archivos/temp.txt", "archivos/partidos.txt");
 		}
 		
-		void modificarP( partido parti){
+		void modificarP(partido parti){
 			int i=1;
 		//	cout<<"cantidad de partidos: "<<tam<<endl;
 			while(parti.clave!=partidos.devolverDato(i).clave){
