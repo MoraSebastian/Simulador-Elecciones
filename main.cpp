@@ -13,7 +13,7 @@ candidatos can;
 Partido part(can.getCandidatos());
 consulta s(part.getPartidos(),deps.getDeps());
 simulacion sim(cities.getMun().getTam());
-modificacion modificar(can, part);
+modificacion modificar(can, /*part*/);
 bool simulacion = false;
 
 string reemplazar(string str, char original, string reemplazo);

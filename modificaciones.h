@@ -11,20 +11,32 @@
 
 class modificacion{
 	candidatos cand;
-	Partido partidito;
+	//Partido partidito;
 	public:
-		modificacion(candidatos candi, Partido part){	
+		modificacion(candidatos candi /*, Partido part*/){	
 			cand = candi;
-			partidito = part;
+			//partidito = part;
 		}
-		void modificarCandidato(candidato structCandidato,){
+		void modificarCandidato(candidato structCandidato){
 			cand.modificarC(structCandidato);
 		}
+		/*
 		void modificarPartido(partido structPartido){
 			partidito.modificarP(structPartido);
 		}
+		
 		void modificarCandidatosPart(int partido, int candidato){
-			Lista <candidato> candidatosPartido = partidito.
-		}
+			bool yaEsta=false;
+			int i=1;
+			Lista <candidato> candidatosPartido = partidito.getPartidos().devolverDato(partido).candidatos;
+			while(i<=candidatosPartido.getTam() || !yaEsta){
+				if(candidatosPartido.devolverDato(i).clave == candidato){
+					yaEsta=true;
+				}
+			}
+			if(!yaEsta){
+			//	for()
+			}
+		}*/
 	
 };
