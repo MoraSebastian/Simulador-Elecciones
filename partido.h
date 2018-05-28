@@ -14,7 +14,7 @@ class Partido: public plantilla{
 				anadirC(c.devolverDato(i));
 			}
 		}
-		//anadir partido
+		/*anadir partido*/
 		int anadirPar(partido par){
 			partidos.anadirFin(par);
 			
@@ -22,6 +22,7 @@ class Partido: public plantilla{
 		}		
 		//Lee el archivo
 		 void leer(){
+		 	
 		 	if(leido==false){
 				int clave;
 				string nombre;
@@ -72,7 +73,8 @@ class Partido: public plantilla{
 			partidos.modificar(parti, i);
 			escribir();
 		}
-		//Función encargada de insertar un candidato
+	
+		/*Función encargada de insertar un candidato*/
 		void anadirC( candidato cani){
 			partido p;
 			for(int i =1;i<=partidos.getTam();i++){
@@ -84,16 +86,16 @@ class Partido: public plantilla{
 			}	
 		}
 		
-		//Devuelve la cantidad de partidos
+		/*Devuelve la cantidad de partidos*/
 		int getTam(){
 			return partidos.getTam();
 		}
-		//funcion para consultar todos los partidos
+		/*funcion para consultar todos los partidos*/
 		Lista<partido> getPartidos(){
 			return partidos;
 		}
 		
-		//Función para consultar un partido específico 
+		/*Función para consultar un partido específico*/ 
 		partido getPartido(int partido){
 			int aux;
 			for(int i =1;i<=getTam();i++){
@@ -104,8 +106,21 @@ class Partido: public plantilla{
 			return partidos.devolverDato(aux);
 		}
 		
+		/*Funcion encargada de eliminar el candidato de la lista de un partido
+		void eliminarCandidato(int cand, int part){
+			partido auxPart = getPartido(part);
+			int posCand;
+			Lista <candidato> auxCand = auxPart.candidatos;
+			for(int i=1; i<=auxCand.getTam(); i++){
+				if(cand == auxCand.devolverDato(i).clave){
+					posCand = i;
+				}
+			}
+			auxCand.eliminarPos(posCand);
+			
+		}*/
 		
-		//obtener el nombre de un partido
+		/*obtener el nombre de un partido*/
 		string getNombre(int partido){
 			int aux;
 			for(int i =1;i<=getTam();i++){
@@ -116,7 +131,7 @@ class Partido: public plantilla{
 			return partidos.devolverDato(aux).nombre;
 		}
 		
-		//Obtiene los candidatos  de un partido
+		/*Obtiene los candidatos  de un partido*/
 		Lista<candidato> consultarC(int partido){
 			int aux;
 			for(int i = 1;i<=partidos.getTam();i++){
@@ -127,7 +142,7 @@ class Partido: public plantilla{
 			return partidos.devolverDato(aux).candidatos;
 		}
 		
-		//Obtiene todos los candidatos a presidencia
+		/*Obtiene todos los candidatos a presidencia*/
 		Lista<candidato> candidatosPresidencia(){
 			Lista<candidato> temp;
 			for(int i = 1;i<getTam();i++){
@@ -141,7 +156,7 @@ class Partido: public plantilla{
 			return temp;
 		}
 		
-		//Obtiene el representante legal del partido
+		/*Obtiene el representante legal del partido*/
 		candidato representante(int partido){
 			int aux;
 			for(int i = 1;i<partidos.getTam();i++){

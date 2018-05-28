@@ -22,11 +22,12 @@ class ciudades: public plantilla{
 			mun.anadirFin(c);
 		}	
 		
-		//Regresa la lista de ciudades
+		/*Regresa la lista de ciudades*/
 		Lista<ciudad> getMun(){
 			return mun;
 		}
 		void leer(){
+			
 			if(this->leido==false){
 				int clave;
 				string nombre;
@@ -103,36 +104,13 @@ class ciudades: public plantilla{
 			}
 			return mun.devolverDato(aux);
 		}
-		/**Muestra los candidatos de una ciudad*/
-	/*	Lista <candidato> mostrarCandPorCiudad(int posCiudad){
-			return mun[posCiudad].cabCandidatosCiudad;
-		}*/
-		
-		/**Añade candidatos a la ciudad en la que va a a particiar*/		
-		/*   POR AHORA NO
-		void anadirCandidatoCiudad(candidato cand, int posCiudad){
-			int auxId;
-			if (mun[posCiudad].idCabezaCand == 0){						//Si la ciudad aun no tiene candidatos, este es el primero
-				mun[posCiudad].idCabezaCand = cand.clave;
-			} else {
-				cand.antCandCiudad = mun[posCiudad].idCabezaCand;		//El candidato guarda la clave del anterior candidato d ela misma ciudad
-				mun[posCiudad].idCabezaCand = cand.clave;
-				
-			}
-		}
-		*/
 		
 		
-		//funcion para consultar todos los partidos
+		/**Funcion para consultar todos los partidos*/
 		Lista<ciudad> getCiudades(){
 			return mun;
 		}
 		
-		/*		
-		void anadirADept(){
-			//Aun no hago esto
-		}*/
-	
 		/**Método que no recibe parametros, pero su @return la cantidad de ciudades en el arreglo*/
 		int getCantidad(){
 			return mun.getTam();

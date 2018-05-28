@@ -13,7 +13,7 @@ candidatos can;
 Partido part(can.getCandidatos());
 consulta s(part.getPartidos(),deps.getDeps());
 simulacion sim(cities.getMun().getTam());
-modificacion modificar(can, /*part*/);
+modificacion modificar;
 bool simulacion = false;
 
 string reemplazar(string str, char original, string reemplazo);
@@ -25,12 +25,13 @@ void mostrarCandidato(candidato c);
 void mostrarCiudad(ciudad ci);
 void menus(int opcion);
 void menuCambios(int opcion);
+void eliminarMenu(int opcion);
 void menuModCand(int opcion);
 void menuModificaciones(int opcion);
 void menuConsulta(int opcion);
 void menuReportes(int opcion);
 void menusSimulacion(int opcion);
-
+void actualizar();
 int main(int argc, char** argv) {
 		int decision;
 		do{
@@ -60,6 +61,8 @@ string reemplazar(string str, char original, string reemplazo) {
 }
 /*Tarjeton por ciudad*/
 void tarjetonC(Lista<candidato> c){
+	Partido part(can.getCandidatos());
+	actualizar();
 	cout<<endl<<"0. Voto en Blanco."<<endl;
 	int aux = 1;
 	for(int i = 1;i<c.getTam();i++){
@@ -71,6 +74,8 @@ void tarjetonC(Lista<candidato> c){
 }
 /*Tarjeton para presidencia*/
 void tarjetonP(Lista<candidato> c){
+	Partido part(can.getCandidatos());
+	actualizar();
 	cout<<endl<<"0. Voto en Blanco."<<endl;
 	cout<<endl;
 	for(int i = 1;i<=c.getTam();i++){
@@ -113,6 +118,7 @@ void mostrarCiudad(ciudad ci){
 }
 /**Menus generales*/
 void menus(int opcion){
+	actualizar();
 	switch(opcion){
 		case 0:{
 			cout<<"Bienvenido a la Registraduria General de la Nacion"<<endl<<endl;
@@ -138,7 +144,11 @@ void menus(int opcion){
 }
 /*Menu para los cambios en el registro*/
 void menuCambios(int opcion){
+	Partido part(can.getCandidatos());
+	actualizar();
 	int decision;
+	string texto, texto2, texto3;
+	long long cedula;
 	switch(opcion){
 		case 0:{
 			cout << "1. Modificar registro. " << endl;
@@ -152,23 +162,114 @@ void menuCambios(int opcion){
 			cout << "1. Modificar informacion de candidato." << endl;
 			cout << "2. Modificar informacion de partido." << endl;
 			cout << "3. Modificar informacion de ciudad." << endl;
-			cout << "4. Modificar informacion de departamento" << endl;
 			cin >> decision;
 			menuModificaciones(decision);
 			break;
 		}
 		case 2:{
-			
+			cout << "1. Eliminar candidato." << endl;
+			cin >> decision;
+			eliminarMenu(decision);
 			break;
 		}
 		default:{
-	
+			candidato auxCand;
+			cout << "1. Anadir nuevo candidato" << endl;
+			cout << "Nombre: " << endl;
+			cin >> texto;
+			auxCand.nombre = texto; 
+			cout << "Apellido: " <<  endl; 
+			cin >> texto;
+			auxCand.apellido = texto; 
+			cout << "Sexo: " << endl;
+			cout << "1. Mujer" << endl;
+			cout << "2. Hombre" << endl;
+			cout << "Seleccione el numero que corresponde al sexo" << endl;
+			cin >> decision;
+			if(decision==1){
+				auxCand.sexo = "Mujer";
+			} else if(decision==2){
+				auxCand.sexo = "Hombre";
+			} else {
+				cout << "Numero no valido, no se modifico el sexo del candidato" << endl;
+			}
+			cout << "Estado Civil: " << endl;
+			cin >> texto;
+			auxCand.estadoCivil = texto;
+			
+			cout << "Fecha nacimiento: " << endl;
+			cout << "Escriba el dia de nacimiento (numero)" << endl;
+			cin >> texto;
+			cout << "Escriba el mes de nacimiento (numero)" << endl;
+			cin >> texto2;
+			cout << "Escriba el año de nacimiento " << endl;
+			cin >> texto3;
+			auxCand.fechaNac = texto+"/"+texto2+"/"+texto3;
+		
+			cout << "Ciudad de nacimiento: " << endl;
+			Lista<ciudad> ciud = cities.getMun();
+			for(int i=1; i<=ciud.getTam(); i++){
+				cout << i << ". " << ciud.devolverDato(i).nombre << endl;
+			} 
+			cout << "Escriba el numero de la ciudad" << endl;
+			cin >> decision;
+			auxCand.ciudadNac = decision;
+			
+			cout << "Ciudad de residencia: " << endl;
+			for(int i=1; i<=ciud.getTam(); i++){
+				cout << i << ". " << ciud.devolverDato(i).nombre << endl;
+			}
+			cout << "Escriba el numero de la ciudad" << endl;
+			cin >> decision;
+			auxCand.ciudadRes  = decision;
+			
+			cout << "Cedula: " << endl;
+			cin >> decision;
+			
+			auxCand.id = (long long)decision;
+			
+			cout << "Partido: " << s.getNombreP(auxCand.partido) << endl << endl;
+			for(int i=1; i<=part.getPartidos().getTam(); i++){
+				cout << i << ". " << part.getPartidos().devolverDato(i).nombre << endl;
+			}
+			cin >> decision;
+			auxCand.partido = decision;
+			
+			can.anadirA(auxCand);
+			break;
+		}
+	}
+}
+/*Menu eliminar*/
+void eliminarMenu(int opcion){
+	Partido part(can.getCandidatos());
+	actualizar();
+	int decision;
+	switch(opcion){
+		case 1:{
+			candidato auxCand;
+			cout << "Lista de candidatos" << endl;
+			Lista <candidato> aux = can.getCandidatos();
+			for (int i=1; i<=can.getTam(); i++){
+				cout << i << ". " << aux.devolverDato(i).nombre << " " << aux.devolverDato(i).apellido <<  endl;
+			}
+			cout << "Escriba el numero del candidato el cual desea eliminar" << endl;
+			cin >> decision;
+			system("cls");
+			
+			modificar.eliminarCandidato(decision, can);
+			actualizar();
+			break;
+		}
+		default:{
 			break;
 		}
 	}
 }
 /*Menu modificaciones candidato*/
 void menuModCand(int opcion, candidato auxCand){
+	Partido part(can.getCandidatos());
+	actualizar();
 	string texto, texto2, texto3;
 	int decision;
 	switch(opcion){
@@ -228,7 +329,7 @@ void menuModCand(int opcion, candidato auxCand){
 			} 
 			cout << "Escriba el numero de la ciudad" << endl;
 			cin >> decision;
-			auxCand.ciudadNac;
+			auxCand.ciudadNac = decision;
 			break;
 		}
 		case 7:{
@@ -240,7 +341,7 @@ void menuModCand(int opcion, candidato auxCand){
 			}
 			cout << "Escriba el numero de la ciudad" << endl;
 			cin >> decision;
-			auxCand.ciudadRes;
+			auxCand.ciudadRes  = decision;
 			break;
 		}
 		case 8:{
@@ -249,21 +350,25 @@ void menuModCand(int opcion, candidato auxCand){
 				cout << i << ". " << part.getPartidos().devolverDato(i).nombre << endl;
 			}
 			cin >> decision;
-			auxCand.partido;
+			auxCand.partido = decision;
 			break;
 		}
 		default:{
 			break;
 		}
 	}
-	modificar.modificarCandidato(auxCand);
+	modificar.modificarCandidato(auxCand, can);
+//	part.actualizar(can.getCandidatos());
+	actualizar();
 }
 /*Menu modificaciones de registros*/
 void menuModificaciones(int opcion){
+	Partido part(can.getCandidatos());
+	actualizar();
 	string texto;
 	int decision;
 	switch(opcion){
-			case 1:{
+		case 1:{
 			candidato auxCand;
 			cout << "Lista de candidatos" << endl;
 			Lista <candidato> aux = can.getCandidatos();
@@ -288,7 +393,7 @@ void menuModificaciones(int opcion){
 			break;
 		}
 		case 2:{
-			cout >> "Lista de partidos: " << endl;
+			cout << "Lista de partidos: " << endl;
 			partido partidito;
 			for(int i=1; i<=part.getPartidos().getTam(); i++){
 				cout << i << ". " << part.getPartidos().devolverDato(i).nombre << endl;
@@ -298,26 +403,15 @@ void menuModificaciones(int opcion){
 			system("cls");
 			partidito = part.getPartido(decision);
 			cout << "1. Modificar nombre" << endl;
-			cout << "2. Anadir un candidato" << endl;
 			cin >> decision;
 			switch(decision){
 				case 1:{
 					cout << "Nombre actual: " << partidito.nombre << endl;
-					cout << "Escriba el nuevo nombre: (Usar guiones en lugar de espacios) " << emdl;
+					cout << "Escriba el nuevo nombre: (Usar guiones en lugar de espacios) " << endl;
 					cin >> texto;
 					partidito.nombre = texto;
-					modificar.modificarPartido(partidito);
-					break;
-				}
-				case 2:{
-					cout << "Lista de candidatos" << endl;
-					Lista <candidato> aux = can.getCandidatos();
-					for (int i=1; i<=can.getTam(); i++){
-						cout << i << ". " << aux.devolverDato(i).nombre << " " << aux.devolverDato(i).apellido <<  endl;
-					}
-					cout << "Escriba el numero del candidato el cual desea añadir al nuevo partido" << endl;
-					cin >> decision;
-					modificar.modificarCandidatosPart(partidito.clave, decision);
+					modificar.modificarPartido(partidito, part);
+					actualizar();
 					break;
 				}
 				default:{
@@ -327,11 +421,31 @@ void menuModificaciones(int opcion){
 			break;
 		}
 		case 3:{
-			
-			break;
-		}
-		case 4:{
-			
+			cout << "Ciudades disponibles: " << endl;
+			ciudad ciuda;
+			Lista<ciudad> ciud = cities.getMun();
+			for(int i=1; i<=ciud.getTam(); i++){
+				cout << i << ". " << ciud.devolverDato(i).nombre << endl;
+			}
+			cout << "Escriba el numero de la ciudad que desea modificar" << endl;
+			cin>> decision;
+			ciuda = cities.getMun().devolverDato(decision);
+			cout << "1. Modificar nombre" << endl;
+			cin >> decision;
+			switch(decision){
+				case 1:{
+					cout << "Nombre actual: " << ciuda.nombre << endl;
+					cout << "Escriba el nuevo nombre: (Usar guiones en lugar de espacios) " << endl;
+					cin >> texto;
+					ciuda.nombre = texto;
+					modificar.modificarCiudad(ciuda, cities);
+					actualizar();
+					break;
+				}
+				default:{
+					break;
+				}
+			}
 			break;
 		}
 		default:{
@@ -341,6 +455,8 @@ void menuModificaciones(int opcion){
 }
 /*Menus para consulta*/
 void menuConsulta(int opcion){
+	Partido part(can.getCandidatos());
+	actualizar();
 	int i;
 	switch(opcion){
 		case 0:{
@@ -393,7 +509,7 @@ void menuConsulta(int opcion){
 				}
 			}
 			cout<<endl;
-			Lista<candidato> cn = s.alcaldia(aux);
+			Lista<candidato> cn = s.alcaldia(aux, part);
 			system("cls");
 			cout<<"Candidatos a la alcaldia de: " <<s.nombreCiudad(ci)<<endl;
 			cout<<endl;
@@ -454,7 +570,7 @@ void menuConsulta(int opcion){
 				}
 			}
 			cout<<endl;
-			Lista<candidato> cn = s.alcaldia(aux);
+			Lista<candidato> cn = s.alcaldia(aux, part);
 			system("cls");
 			cout<<"Tarjeton de votacion de "<<s.nombreCiudad(aux)<<endl;
 			tarjetonC(cn);
@@ -509,6 +625,8 @@ void menuConsulta(int opcion){
 } 
 /*Menus para reportes*/
 void menuReportes(int opcion){
+	Partido part(can.getCandidatos());
+	actualizar();
 	int decision, i, departamento;
 	switch(opcion){
 		case 1:{
@@ -648,14 +766,17 @@ void menuReportes(int opcion){
 /*Menus de simulacion*/
 void menusSimulacion(int opcion){
 	int aux;
-	if (!simulacion){														//Se realiza la simulacion para todo el pais
+	if (!simulacion){
+		actualizar();
+		Partido part(can.getCandidatos());													//Se realiza la simulacion para todo el pais
 		sim.simularP(cities.getMun(),part.candidatosPresidencia());			//Simulacion de las elecciones presidenciales
 		int departamento,ci,aux, i, j, aux2;				
 			for(i =1;i<= deps.getTam();i++){								//Simulacion de las eleccions de alcaldia para cada ciudad
 				Lista<ciudad> cd = deps.mostrarCiudades(i);
 				for (j=1; j<= cd.getTam(); j++){
 					aux = cd.devolverDato(j).clave;			
-					sim.simularA(s.alcaldia(aux), cd.devolverDato(j).censo, cd.devolverDato(j).nombre, cd.devolverDato(j).departamento);
+					partido pa = part.getPartido(6);
+					sim.simularA(s.alcaldia(aux, part), cd.devolverDato(j).censo, cd.devolverDato(j).nombre, cd.devolverDato(j).departamento);
 				}
 			}
 		simulacion=true;
@@ -728,6 +849,16 @@ void menusSimulacion(int opcion){
 		}
 		
 	}
+}
+void actualizar(){
+	system("cls");
+	can.leer();
+	consulta s(part.getPartidos(),deps.getDeps());
+	/*Lista <candidato> candi = can.getCandidatos();
+	for (int i=1; i<=candi.getTam(); i++){
+		cout << i << "Cosa " << " Nombre: " << candi.devolverDato(i).nombre << " " <<   candi.devolverDato(i).apellido << endl;
+	}*/
+	//Partido part(can.getCandidatos());
 }
 
 

@@ -16,6 +16,7 @@ class candidatos: public plantilla{
 		leer();
 	}
 	void leer(){
+		cand.vaciar();
 		int clave;
 			string nombre;
 			string apellido;
@@ -97,9 +98,22 @@ class candidatos: public plantilla{
 		cand.modificar(c, i);
 		escribir();
 	}
+	void eliminarC(candidato c){
+		int i=1;		
+		while (c.clave!=cand.devolverDato(i).clave){
+			i++;
+		}
+		cand.eliminarPos(i);
+		escribir();
+	}
 	/*agregar un nuevo candidato*/
 	void anadir(candidato c){
+		c.clave = cand.getTam()+1;
 		cand.anadirFin(c);
+	}
+	void anadirA(candidato c){
+		anadir(c);
+		escribir();
 	}
 	
 	/*Devuelve la lista de candidatos*/
