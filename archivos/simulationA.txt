@@ -1,0 +1,262 @@
+Bogota
+Abstinencia 0 3034510 53.2108
+Juanita Mejia 6 1340491 23.5058
+Angelica Samper 9 584046 10.2414
+German Melgarejo 10 506983 8.89006
+Mariana Acosta 7 102647 1.79994
+Raquel Duque 4 98343 1.72447
+Votos Nulos 0 22781 0.39947
+Voto en Blanco 0 13004 0.228028
+Zipaquira
+Felipe Gutierrez 3 42484 52.7293
+Rodrigo Duque 4 15225 18.8966
+Giovanni Alvarez 3 13600 16.8797
+Santiago Mejia 4 5113 6.34603
+Alirio Ramirez 6 3754 4.6593
+Alirio Arias 7 251 0.31153
+Voto en Blanco 0 134 0.166315
+Abstinencia 0 7 0.0086881
+Votos Nulos 0 2 0.00248231
+Girardot
+Valentina Perez 4 42484 53.6414
+Francisco Mejia 7 15225 19.2235
+Gloria Lizcano 3 13600 17.1717
+Giovanni Reyes 9 6483 8.18561
+Vivian Fernandez 10 1110 1.40152
+Votos Nulos 0 238 0.300505
+Voto en Blanco 0 58 0.0732323
+Abstinencia 0 2 0.00252525
+Sopo
+Vivian Mora 1 6258 76.71
+German Peñalosa 2 1624 19.9068
+Sofia Ordoñez 2 258 3.16254
+Paola Cruz 8 15 0.183869
+Carlos Garcia 9 2 0.0245158
+Abstinencia 0 1 0.0122579
+Votos Nulos 0 0 0
+Voto en Blanco 0 0 0
+Cajica
+Martina Garcia 2 13600 76.6543
+Ricardo Fernandez 4 3954 22.2861
+Angela Vargas 5 111 0.625634
+Gloria Ordoñez 6 55 0.309999
+Abstinencia 0 11 0.0619998
+Ignacio Mora 10 8 0.0450907
+Votos Nulos 0 3 0.016909
+Voto en Blanco 0 0 0
+Chia
+Vivian Melgarejo 2 42484 46.1517
+Laura Vargas 2 15225 16.5394
+Angela Ordoñez 1 13600 14.7741
+Raquel Robledo 3 10813 11.7465
+Pedro Garcia 9 7748 8.41689
+Abstinencia 0 1196 1.29925
+Voto en Blanco 0 958 1.0407
+Votos Nulos 0 29 0.0315036
+Soacha
+Karen Arias 7 136719 36.858
+Fernando Asprilla 7 102647 27.6726
+German Pinzon 1 98343 26.5123
+Abstinencia 0 14054 3.78881
+Paloma Trujillo 8 9367 2.52525
+Giovanni Mora 10 4207 1.13416
+Voto en Blanco 0 3653 0.984811
+Votos Nulos 0 1944 0.524082
+Fusagasuga
+Carlos Gaviria 2 95115 97.668
+Ignacio Trujillo 4 2101 2.15739
+Giovanni Acosta 5 147 0.150946
+German Gutierrez 7 11 0.0112953
+Sofia Robledo 9 11 0.0112953
+Abstinencia 0 1 0.00102684
+Votos Nulos 0 0 0
+Voto en Blanco 0 0 0
+Medellin
+Angelica Melgarejo 7 584046 43.2627
+Gloria Vargas 9 321579 23.8207
+German Duque 5 136719 10.1273
+Juana Estupiñan 6 102647 7.60348
+German Gaviria 3 98343 7.28467
+Karen Duque 8 61891 4.58452
+Abstinencia 0 34474 2.55363
+Voto en Blanco 0 5890 0.436296
+Votos Nulos 0 4411 0.326741
+Bello
+Felipe Asprilla 3 136719 54.4997
+Felipe Hernandez 3 98343 39.202
+Diana Pinzon 4 10724 4.27486
+Valentina Fajardo 9 3298 1.31467
+Estefania Hernandez 9 1696 0.676069
+Abstinencia 0 50 0.0199313
+Voto en Blanco 0 26 0.0103643
+Votos Nulos 0 6 0.00239175
+Itagui
+Monica Lopez 3 42484 53.4256
+Andrea Perez 6 15225 19.1461
+Juana Duque 3 13600 17.1026
+Valentina Fajardo 8 6163 7.75025
+Santiago Renteria 8 1558 1.95926
+Abstinencia 0 314 0.394869
+Voto en Blanco 0 172 0.216298
+Votos Nulos 0 4 0.00503018
+Envigado
+Santiago Uribe 1 98343 47.7393
+Fernando Ordoñez 9 42864 20.8078
+Juana Pinzon 2 42484 20.6233
+Paloma Lopez 9 15225 7.39078
+Raquel Fernandez 10 6976 3.38641
+Voto en Blanco 0 94 0.0456311
+Votos Nulos 0 8 0.0038835
+Abstinencia 0 6 0.00291262
+Turbo
+Angela Ramirez 6 42484 54.1197
+Gloria Ramirez 7 15225 19.3949
+Diana Fajardo 2 13600 17.3248
+Miriam Melo 9 7183 9.15032
+Cristian Vargas 10 6 0.00764331
+Abstinencia 0 2 0.00254777
+Votos Nulos 0 0 0
+Voto en Blanco 0 0 0
+Apartado
+Giovanni Perez 4 98343 99.1301
+Luis Uribe 8 559 0.563474
+Monica Robledo 6 212 0.213697
+Karen Duque 9 88 0.0887043
+Voto en Blanco 0 3 0.00302401
+Abstinencia 0 1 0.001008
+Votos Nulos 0 0 0
+Rionegro
+Karen Cruz 2 42484 64.3648
+Vivian Perez 1 13600 20.6045
+Sebastian Garcia 2 9315 14.1126
+Rodrigo Fajardo 8 524 0.793879
+Andrea Fernandez 10 54 0.081812
+Voto en Blanco 0 10 0.0151504
+Abstinencia 0 10 0.0151504
+Votos Nulos 0 8 0.0121203
+Caucasia
+Marcelo Arias 2 42484 68.4707
+Luis Galindo 1 13600 21.9189
+Santiago Pinzon 4 5075 8.17928
+Andrea Uribe 8 762 1.2281
+Juana Fajardo 10 99 0.159556
+Voto en Blanco 0 19 0.0306219
+Votos Nulos 0 6 0.00967009
+Abstinencia 0 2 0.00322336
+Cali
+Vivian Trujillo 8 1340491 86.4878
+Andres Robledo 10 102647 6.62273
+Luis Pastrana 7 98343 6.34504
+Karen Ramirez 10 6540 0.421957
+Voto en Blanco 0 958 0.0618096
+Camilo Estupiñan 10 426 0.0274853
+Abstinencia 0 386 0.0249045
+Votos Nulos 0 129 0.00832301
+Buenaventura
+Angela Lizcano 2 98343 47.41
+Ignacio Mejia 8 42864 20.6642
+Santiago Trujillo 4 42484 20.481
+Elder Melo 7 15225 7.33979
+Felipe LLeras 10 6839 3.297
+Voto en Blanco 0 958 0.46184
+Abstinencia 0 390 0.188014
+Votos Nulos 0 328 0.158125
+Palmira
+Andres Trujillo 5 136719 56.161
+Pedro Galindo 1 98343 40.3971
+Raquel Ramirez 7 8225 3.37864
+Camilo Galindo 8 85 0.0349161
+Karen Gaviria 8 62 0.0254682
+Voto en Blanco 0 5 0.00205389
+Abstinencia 0 2 0.000821554
+Votos Nulos 0 0 0
+Tulua
+Sofia Uribe 3 98343 66.7461
+Paola Gutierrez 5 42484 28.8342
+Marcelo Lizcano 6 2879 1.954
+Santiago Melgarejo 7 1833 1.24407
+Elder Vargas 10 1646 1.11715
+Votos Nulos 0 98 0.0665133
+Voto en Blanco 0 38 0.0257909
+Abstinencia 0 18 0.0122167
+Cartago
+Raquel Vargas 2 98343 90.7818
+Vivian Pinzon 2 9330 8.61265
+Monica Lopez 3 333 0.307397
+Marcelo Duque 8 181 0.167084
+Karen Uribe 9 104 0.0960038
+Voto en Blanco 0 31 0.0286165
+Votos Nulos 0 5 0.00461557
+Abstinencia 0 2 0.00184623
+Jamundi
+Paola Acosta 1 42484 53.2815
+Camilo Garcia 2 15225 19.0945
+Vivian Fernandez 1 13600 17.0565
+Ignacio Fernandez 7 5948 7.45971
+Ignacio Pastrana 8 1380 1.73073
+Voto en Blanco 0 480 0.601994
+Votos Nulos 0 340 0.426412
+Abstinencia 0 278 0.348655
+Yumbo
+Miriam Alvarez 5 42484 54.0922
+Martina Renteria 6 15225 19.385
+Luis Leon 3 13600 17.316
+Juana Peñalosa 7 7143 9.09473
+Ricardo Duque 8 82 0.104405
+Abstinencia 0 4 0.00509295
+Voto en Blanco 0 2 0.00254647
+Votos Nulos 0 0 0
+Buga
+Elder Trujillo 8 42484 57.8202
+Laura Fajardo 8 15225 20.7211
+Martina Trujillo 7 13600 18.5094
+Marcelo Ramirez 9 1341 1.82509
+Sebastian Perez 10 534 0.726768
+Voto en Blanco 0 238 0.323915
+Votos Nulos 0 30 0.0408297
+Abstinencia 0 24 0.0326637
+Barranquilla
+Ignacio Ramirez 8 568093 62.0904
+Francisco Fernandez 4 136719 14.9429
+Angela Uribe 7 102647 11.2189
+Isabel Vargas 1 98343 10.7485
+Mariana Robledo 8 6095 0.66616
+Votos Nulos 0 1792 0.195859
+Abstinencia 0 1011 0.110498
+Voto en Blanco 0 245 0.0267776
+Soledad
+Mariana Melgarejo 5 136719 55.3478
+Rodrigo Acosta 1 98343 39.8121
+Juana Melgarejo 5 9686 3.92117
+Vivian Reyes 7 1082 0.438025
+Felipe Hernandez 6 977 0.395518
+Abstinencia 0 146 0.059105
+Votos Nulos 0 38 0.0153835
+Voto en Blanco 0 27 0.0109304
+Malambo
+Raquel Ordoñez 4 42484 67.8593
+Mariana Trujillo 4 13600 21.7232
+Raquel Reyes 5 2839 4.53471
+Camilo Gaviria 8 1833 2.92783
+Marcelo Hernandez 8 1260 2.01259
+Voto en Blanco 0 454 0.72517
+Votos Nulos 0 70 0.11181
+Abstinencia 0 66 0.105421
+Sabanalarga
+Alirio Alvarez 4 42484 71.8691
+Pedro Samper 2 13600 23.0068
+German Trujillo 9 1833 3.10084
+Sebastian Mora 8 1173 1.98434
+Ricardo Ordoñez 10 19 0.0321418
+Voto en Blanco 0 3 0.00507503
+Abstinencia 0 1 0.00169168
+Votos Nulos 0 0 0
+Baranoa
+German Garcia 5 27447 65.3313
+Alirio Ordoñez 2 13600 32.3717
+Giovanni Hernandez 7 927 2.20651
+Raquel Arias 9 23 0.0547463
+Karen Alvarez 9 14 0.0333238
+Abstinencia 0 1 0.00238027
+Votos Nulos 0 0 0
+Voto en Blanco 0 0 0
