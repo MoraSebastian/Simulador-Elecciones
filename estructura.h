@@ -23,7 +23,7 @@ struct ciudad{
 	string nombre;
 	int departamento;
 	long long censo;
-//	int idCabezaCand;		//Es el ultimo candidato que pertenece a la ciudad	
+	int habilitada;	
 };
 struct departamento{
 	//El identificador del dept es la posicion en el array

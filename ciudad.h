@@ -7,8 +7,6 @@
 #include "estructura.h"
 class ciudades: public plantilla{
 	Lista<ciudad> mun;
-	
-	
 	public:
 		//Constructor ya esta cargando la informacion del archivo de las ciudades
 		ciudades(){
@@ -21,7 +19,6 @@ class ciudades: public plantilla{
 		void anadirCiudad(ciudad c){									
 			mun.anadirFin(c);
 		}	
-		
 		/*Regresa la lista de ciudades*/
 		Lista<ciudad> getMun(){
 			return mun;
@@ -31,7 +28,7 @@ class ciudades: public plantilla{
 			if(this->leido==false){
 				int clave;
 				string nombre;
-				int departamento;		
+				int departamento, habilit;		
 				long long censo;
 				ciudad ciuda;
 
@@ -46,11 +43,16 @@ class ciudades: public plantilla{
 					archEntrada >> nombre;
 					archEntrada >> departamento;
 					archEntrada >> censo;
+					archEntrada >> habilit;
 					ciuda.clave = clave;
 					ciuda.nombre = nombre;
 					ciuda.departamento = departamento;
 					ciuda.censo = censo;
-					this->anadirCiudad(ciuda);
+					ciuda.habilitada = habilit;
+					if(ciuda.habilitada==1){
+						this->anadirCiudad(ciuda);
+					}
+					
 				}
 				archEntrada.close();
 				this->leido = true;
@@ -66,7 +68,7 @@ class ciudades: public plantilla{
 			}    
 			for (int i=1; i<=mun.getTam(); i++){
 				archsalida1<<mun.devolverDato(i).clave<<" "<<mun.devolverDato(i).nombre<<" "<<mun.devolverDato(i).departamento
-						   <<" "<<mun.devolverDato(i).censo ;
+						   <<" "<<mun.devolverDato(i).censo << " " << mun.devolverDato(i).habilitada ;
 				if(i<mun.getTam()){
 					archsalida1<<endl;
 				}
