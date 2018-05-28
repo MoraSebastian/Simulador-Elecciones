@@ -144,101 +144,133 @@ void menus(int opcion){
 }
 /*Menu para los cambios en el registro*/
 void menuCambios(int opcion){
-	Partido part(can.getCandidatos());
-	actualizar();
-	int decision;
-	string texto, texto2, texto3;
-	long long cedula;
-	switch(opcion){
-		case 0:{
-			cout << "1. Modificar registro. " << endl;
-			cout << "2. Eliminar registro. " << endl;
-			cout << "3. Crear registro." << endl;
-			cin >> decision;
-			menuCambios(decision);
-			break;
-		}
-		case 1:{
-			cout << "1. Modificar informacion de candidato." << endl;
-			cout << "2. Modificar informacion de partido." << endl;
-			cout << "3. Modificar informacion de ciudad." << endl;
-			cin >> decision;
-			menuModificaciones(decision);
-			break;
-		}
-		case 2:{
-			cout << "1. Eliminar candidato." << endl;
-			cin >> decision;
-			eliminarMenu(decision);
-			break;
-		}
-		default:{
-			candidato auxCand;
-			cout << "1. Anadir nuevo candidato" << endl;
-			cout << "Nombre: " << endl;
-			cin >> texto;
-			auxCand.nombre = texto; 
-			cout << "Apellido: " <<  endl; 
-			cin >> texto;
-			auxCand.apellido = texto; 
-			cout << "Sexo: " << endl;
-			cout << "1. Mujer" << endl;
-			cout << "2. Hombre" << endl;
-			cout << "Seleccione el numero que corresponde al sexo" << endl;
-			cin >> decision;
-			if(decision==1){
-				auxCand.sexo = "Mujer";
-			} else if(decision==2){
-				auxCand.sexo = "Hombre";
-			} else {
-				cout << "Numero no valido, no se modifico el sexo del candidato" << endl;
+	if(simulacion){
+		cout << "No se pueden realizar cambios en los registros, ya que ya se hizo la simulacion" << endl;
+	} else {
+		Partido part(can.getCandidatos());
+		actualizar();
+		int decision;
+		string texto, texto2, texto3;
+		switch(opcion){
+			case 0:{
+				cout << "1. Modificar registro. " << endl;
+				cout << "2. Eliminar registro. " << endl;
+				cout << "3. Crear registro." << endl;
+				cin >> decision;
+				menuCambios(decision);
+				break;
 			}
-			cout << "Estado Civil: " << endl;
-			cin >> texto;
-			auxCand.estadoCivil = texto;
-			
-			cout << "Fecha nacimiento: " << endl;
-			cout << "Escriba el dia de nacimiento (numero)" << endl;
-			cin >> texto;
-			cout << "Escriba el mes de nacimiento (numero)" << endl;
-			cin >> texto2;
-			cout << "Escriba el año de nacimiento " << endl;
-			cin >> texto3;
-			auxCand.fechaNac = texto+"/"+texto2+"/"+texto3;
-		
-			cout << "Ciudad de nacimiento: " << endl;
-			Lista<ciudad> ciud = cities.getMun();
-			for(int i=1; i<=ciud.getTam(); i++){
-				cout << i << ". " << ciud.devolverDato(i).nombre << endl;
-			} 
-			cout << "Escriba el numero de la ciudad" << endl;
-			cin >> decision;
-			auxCand.ciudadNac = decision;
-			
-			cout << "Ciudad de residencia: " << endl;
-			for(int i=1; i<=ciud.getTam(); i++){
-				cout << i << ". " << ciud.devolverDato(i).nombre << endl;
+			case 1:{
+				cout << "1. Modificar informacion de candidato." << endl;
+				cout << "2. Modificar informacion de partido." << endl;
+				cout << "3. Modificar informacion de ciudad." << endl;
+				cin >> decision;
+				menuModificaciones(decision);
+				break;
 			}
-			cout << "Escriba el numero de la ciudad" << endl;
-			cin >> decision;
-			auxCand.ciudadRes  = decision;
-			
-			cout << "Cedula: " << endl;
-			cin >> decision;
-			
-			auxCand.id = (long long)decision;
-			
-			cout << "Partido: " << s.getNombreP(auxCand.partido) << endl << endl;
-			for(int i=1; i<=part.getPartidos().getTam(); i++){
-				cout << i << ". " << part.getPartidos().devolverDato(i).nombre << endl;
+			case 2:{
+				cout << "1. Eliminar candidato." << endl;
+				cin >> decision;
+				eliminarMenu(decision);
+				break;
 			}
-			cin >> decision;
-			auxCand.partido = decision;
+			default:{
+				candidato auxCand2;
+				cout << "1. Anadir nuevo candidato" << endl;
+				cout << "Nombre: " << endl;
+				cin >> texto;
+				auxCand2.nombre = texto; 
+				cout << "Apellido: " <<  endl; 
+				cin >> texto;
+				auxCand2.apellido = texto; 
+				cout << "Sexo: " << endl;
+				cout << "1. Mujer" << endl;
+				cout << "2. Hombre" << endl;
+				cout << "Seleccione el numero que corresponde al sexo" << endl;
+				cin >> decision;
+				if(decision==1){
+					auxCand2.sexo = "Mujer";
+				} else if(decision==2){
+					auxCand2.sexo = "Hombre";
+				} else {
+					cout << "Numero no valido, no se modifico el sexo del candidato" << endl;
+				}
+				cout << "Estado Civil: " << endl;
+				cin >> texto;
+				auxCand2.estadoCivil = texto;
+				
+				cout << "Fecha nacimiento: " << endl;
+				cout << "Escriba el dia de nacimiento (numero)" << endl;
+				cin >> texto;
+				cout << "Escriba el mes de nacimiento (numero)" << endl;
+				cin >> texto2;
+				cout << "Escriba el año de nacimiento " << endl;
+				cin >> texto3;
+				auxCand2.fechaNac = texto+"/"+texto2+"/"+texto3;
 			
-			can.anadirA(auxCand);
-			break;
+				cout << "Ciudad de nacimiento: " << endl;
+				Lista<ciudad> ciud = cities.getMun();
+				for(int i=1; i<=ciud.getTam(); i++){
+					cout << i << ". " << ciud.devolverDato(i).nombre << endl;
+				} 
+				cout << "Escriba el numero de la ciudad" << endl;
+				cin >> decision;
+				auxCand2.ciudadNac = decision;
+				
+				ciud = cities.getMun();
+				cout << "Ciudad de residencia: " << endl;
+				for(int i=1; i<=ciud.getTam(); i++){
+					cout << i << ". " << ciud.devolverDato(i).nombre << endl;
+				}
+				cout << "Escriba el numero de la ciudad" << endl;
+				cin >> decision;
+				auxCand2.ciudadRes  = decision;
+				
+				cout << "Cedula: " << endl;
+				cin >> texto;
+				auxCand2.id = texto;
+				
+				cout << "Partido: "<< endl << endl;
+				for(int i=1; i<=part.getPartidos().getTam(); i++){
+					cout << i << ". " << part.getPartidos().devolverDato(i).nombre << endl;
+				}
+				cin >> decision;
+				auxCand2.partido = decision;
+				
+				cout << "Que tipo de candidato sera?" << endl;
+				cout << "1. Presidente" << endl;
+				cout << "2. Vicepresidente" << endl;
+				cout << "3. Alcalde" << endl;
+				cin >> decision;
+				if(decision==1){
+					auxCand2.tipoCandidato = 1;
+					auxCand2.vicepresidente = 0;
+					cout << "Es necesario anadir un vicepresidente" << endl;
+					
+				}
+				if(decision==2){
+					cout << "A que candidato desea adherirse como vicepresidente" << endl;
+					cout << "Lista de candidatos" << endl;
+					Lista <candidato> aux = can.getCandidatos();
+						for (int i=1; i<=can.getTam(); i++){
+						cout << i << ". " << aux.devolverDato(i).nombre << " " << aux.devolverDato(i).apellido <<  endl;
+					}
+					cout << "Escriba el numero del candidato el cual desea seleccionar" << endl;
+					cin >> decision;
+					candidato aux2= can.getCandidato(decision);	
+					aux2.vicepresidente = aux.getTam()+1;
+					can.modificarC(aux2);
+				}
+				if (decision==3){
+					auxCand2.tipoCandidato = 2;
+					auxCand2.vicepresidente = 0;
+				}
+				can.anadirA(auxCand2);
+				break;
+			}
 		}
 	}
+	
 }
 /*Menu eliminar*/
 void eliminarMenu(int opcion){

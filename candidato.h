@@ -20,7 +20,7 @@ class candidatos: public plantilla{
 		int clave;
 			string nombre;
 			string apellido;
-			long long id;
+			string id;
 			string sexo;
 			string estadoCivil;
 			string fechaNac;
