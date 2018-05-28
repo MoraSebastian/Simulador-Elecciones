@@ -30,6 +30,7 @@ void menuModCand(int opcion);
 void menuModificaciones(int opcion);
 void menuConsulta(int opcion);
 void menuReportes(int opcion);
+void menuFinalSimulacion(int decision);
 void menusSimulacion(int opcion);
 void actualizar();
 int main(int argc, char** argv) {
@@ -797,90 +798,121 @@ void menuReportes(int opcion){
 }
 /*Menus de simulacion*/
 void menusSimulacion(int opcion){
-	int aux;
-	if (!simulacion){
-		actualizar();
-		Partido part(can.getCandidatos());													//Se realiza la simulacion para todo el pais
-		sim.simularP(cities.getMun(),part.candidatosPresidencia());			//Simulacion de las elecciones presidenciales
-		int departamento,ci,aux, i, j, aux2;				
-			for(i =1;i<= deps.getTam();i++){								//Simulacion de las eleccions de alcaldia para cada ciudad
-				Lista<ciudad> cd = deps.mostrarCiudades(i);
-				for (j=1; j<= cd.getTam(); j++){
-					aux = cd.devolverDato(j).clave;			
-					partido pa = part.getPartido(6);
-					sim.simularA(s.alcaldia(aux, part), cd.devolverDato(j).censo, cd.devolverDato(j).nombre, cd.devolverDato(j).departamento);
-				}
-			}
-		simulacion=true;
-	}	
-	switch(opcion){
-		int decision;
-		case 0:{
-			cout<<"De cual simulacion desea mostrar los resultados?"<<endl;
-			cout<<"1. Simulacion presidencial."<<endl;
-			cout<<"2. Simulacion elecciones para las alcaldias."<<endl;
-			cout<<"3. Reporte elecciones." << endl;
-			cin>>decision;
-			system("cls");
-			menusSimulacion(decision);	
-			break;
-		}
+	int aux, decision, decision2;
+	cout << "1. Hacer simulacion " << endl;
+	
+	cin >> decision;
+	switch (decision){
 		case 1:{
-			int candidato;
-			for(int i = 1;i<=sim.getPresidentes().getTam();i++){
-				string nombreV;
-				nombreV = s.vice(sim.getPresidentes().devolverDato(i).vice).nombre +" "+ s.vice(sim.getPresidentes().devolverDato(i).vice).apellido;
-				cout<<"Presidente: "<<sim.getPresidentes().devolverDato(i).nombreCand<<endl;
-				cout<<"Vicepresidente: "<<nombreV<<endl;
-				cout<<"-----------------------------------------------------------------------------------------"<<endl;
-				for(int j = 1;j<= cities.getMun().getTam();j++){
-					cout<<s.nombreCiudad(sim.getPresidentes().devolverDato(i).votoP[j].ciudad)<<"    ";
-					cout<<sim.getPresidentes().devolverDato(i).votoP[j].votos<<"   ";
-					cout<<sim.getPresidentes().devolverDato(i).votoP[j].porcentaje<<"%"<<endl;
-				}
-				cout<<"VOTOS TOTALES: "<<sim.getPresidentes().devolverDato(i).votos<<"    "<<sim.getPresidentes().devolverDato(i).porcentaje<<"%"<<endl;
-				cout<<"-----------------------------------------------------------------------------------------"<<endl;
+			if (!simulacion){
+				actualizar();
+				Partido part(can.getCandidatos());													//Se realiza la simulacion para todo el pais
+				sim.simularP(cities.getMun(),part.candidatosPresidencia());			//Simulacion de las elecciones presidenciales
+				int departamento,ci,aux, i, j, aux2;				
+					for(i =1;i<= deps.getTam();i++){								//Simulacion de las eleccions de alcaldia para cada ciudad
+						Lista<ciudad> cd = deps.mostrarCiudades(i);
+						for (j=1; j<= cd.getTam(); j++){
+							aux = cd.devolverDato(j).clave;			
+							partido pa = part.getPartido(6);
+							sim.simularA(s.alcaldia(aux, part), cd.devolverDato(j).censo, cd.devolverDato(j).nombre, cd.devolverDato(j).departamento);
+						}
+					}
+				simulacion=true;
+				sim.escribir();     //actualizo archivos con la ultima simulacion
 			}
+			menuFinalSimulacion(0);
 			break;
 		}
 		case 2:{
-			int departamento,ci,aux, i, aux2;			
-			cout<<"De cual departamento desea ver las ciudades ?"<<endl;
-			for(i =1;i<= deps.getTam();i++){
-				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
-			}
-			cin>>departamento;
-			cout<<endl<<"De cual ciudad desea ver los resultados de la simulacion?"<<endl;
-			Lista<ciudad> cd = deps.mostrarCiudades(departamento);
-			for(i = 1;i<=cd.getTam();i++){
-				cout<<i<<". "<<cd.devolverDato(i).nombre<<endl;
-			}cin>>ci;
-			i=1;
-			while(i!=ci){				
-				i++;
-			}
-			aux = cd.devolverDato(i).clave;			
-			Lista <voto> listaCand = sim.getResultAlcaldia(s.nombreCiudad(aux)).resultado;
-			for (i=1; i<=listaCand.getTam(); i++){
-				cout << i <<". " << listaCand.devolverDato(i).nombreCand << "\t" << listaCand.devolverDato(i).votos << "\t" << listaCand.devolverDato(i).porcentaje << "%"<<endl;
-			}		
+			/*
+			sim.leer();
+			Lista<voto> aux;
+			Lista <resultados> res = sim.getResult();
+			for (int i=1; i<=res.getTam(); i++){
+				aux = res.devolverDato(i).resultado;
+				cout << "Ciudad: " << res.devolverDato(i).nombreCiudad << endl;
+				for(int j=1; j<= aux.getTam(); j++){
+					cout << " Nombre candidato: " << aux.devolverDato(j).nombreCand << endl;
+					cout << " Votos obtenidos: " << aux.devolverDato(j).votos << " "<< aux.devolverDato(j).porcentaje << "%" <<   endl;
+				}
+				cout << endl;
+			} */
 			break;
-		}
-		case 3:{
-			cout << "1. Reporte general de alcaldias por departamento " << endl;
-			cout << "2. Reporte detallado de alcaldias por departamento " << endl;
-			cout << "3. Reporte total nacional de alcaldias" << endl;
-			cout << "4. Reporte general de presidencia por departamento " << endl;
-			cout << "5. Reporte general nacional de presidencia" << endl;
-			cout << "6. Reporte detallado de presidencia por departamento " << endl;
-			cout << "7. Reporte detallado nacional de presidencia" << endl;
-			cout << "8. Consulta segunda vuelta" << endl;
-			cin >>decision;
-			menuReportes(decision);
-			break;
-		}
-		
+		} 
 	}
+	
+}
+void menuFinalSimulacion(int decision){
+		switch(decision){
+			int decision2;
+				case 0:{
+					cout<<"De cual simulacion desea mostrar los resultados?"<<endl;
+					cout<<"1. Simulacion presidencial."<<endl;
+					cout<<"2. Simulacion elecciones para las alcaldias."<<endl;
+					cout<<"3. Reporte elecciones." << endl;
+					cin>>decision2;
+					system("cls");
+					menuFinalSimulacion(decision2);	
+					break;
+				}
+				case 1:{
+					int candidato;
+					for(int i = 1;i<=sim.getPresidentes().getTam();i++){
+						string nombreV;
+						nombreV = s.vice(sim.getPresidentes().devolverDato(i).vice).nombre +" "+ s.vice(sim.getPresidentes().devolverDato(i).vice).apellido;
+						cout<<"Presidente: "<<sim.getPresidentes().devolverDato(i).nombreCand<<endl;
+						cout<<"Vicepresidente: "<<nombreV<<endl;
+						cout<<"-----------------------------------------------------------------------------------------"<<endl;
+						for(int j = 1;j<= cities.getMun().getTam();j++){
+							cout<<s.nombreCiudad(sim.getPresidentes().devolverDato(i).votoP[j].ciudad)<<"    ";
+							cout<<sim.getPresidentes().devolverDato(i).votoP[j].votos<<"   ";
+							cout<<sim.getPresidentes().devolverDato(i).votoP[j].porcentaje<<"%"<<endl;
+						}
+						cout<<"VOTOS TOTALES: "<<sim.getPresidentes().devolverDato(i).votos<<"    "<<sim.getPresidentes().devolverDato(i).porcentaje<<"%"<<endl;
+						cout<<"-----------------------------------------------------------------------------------------"<<endl;
+					}
+					break;
+				}
+				case 2:{
+					int departamento,ci,aux, i, aux2;			
+					cout<<"De cual departamento desea ver las ciudades ?"<<endl;
+					for(i =1;i<= deps.getTam();i++){
+						cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
+					}
+					cin>>departamento;
+					cout<<endl<<"De cual ciudad desea ver los resultados de la simulacion?"<<endl;
+					Lista<ciudad> cd = deps.mostrarCiudades(departamento);
+					for(i = 1;i<=cd.getTam();i++){
+						cout<<i<<". "<<cd.devolverDato(i).nombre<<endl;
+					}cin>>ci;
+					i=1;
+					while(i!=ci){				
+						i++;
+					}
+					aux = cd.devolverDato(i).clave;			
+					Lista <voto> listaCand = sim.getResultAlcaldia(s.nombreCiudad(aux)).resultado;
+					for (i=1; i<=listaCand.getTam(); i++){
+						cout << i <<". " << listaCand.devolverDato(i).nombreCand << "\t" << listaCand.devolverDato(i).votos << "\t" << listaCand.devolverDato(i).porcentaje << "%"<<endl;
+					}		
+					break;
+				}
+				case 3:{
+					cout << "1. Reporte general de alcaldias por departamento " << endl;
+					cout << "2. Reporte detallado de alcaldias por departamento " << endl;
+					cout << "3. Reporte total nacional de alcaldias" << endl;
+					cout << "4. Reporte general de presidencia por departamento " << endl;
+					cout << "5. Reporte general nacional de presidencia" << endl;
+					cout << "6. Reporte detallado de presidencia por departamento " << endl;
+					cout << "7. Reporte detallado nacional de presidencia" << endl;
+					cout << "8. Consulta segunda vuelta" << endl;
+					cin >>decision2;
+					menuReportes(decision2);
+					break;
+				}
+				default:{
+					break;
+				}	
+		}
 }
 void actualizar(){
 	system("cls");

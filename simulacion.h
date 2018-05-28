@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <time.h>
 #include <ctime>
-
+#include <sstream>
 
 long long randomi(int max){
 	int lim=5+rand()%((8)-5);
@@ -13,7 +13,7 @@ long long randomi(int max){
 	int x;
 	for(int i=1; i<=lim; i++){
 		x=1+ rand()%9;
-		if(10*y+x>=max){   //MACHETE 
+		if(10*y+x>=max){    
 			break;
 		}			
 		y=10*y+x; 
@@ -28,22 +28,159 @@ class simulacion: public plantilla{
 	Lista<voto> alcaldias;
 	votoEst votosTotales;
 	int cantCiudades = 0;
+	int indice=0; 
+	int cantcandidatos=0;
 	
 	public: 
 		Lista<votoP> getPresidentes(){
 			return presidentes;
 		}
+		Lista<resultados> getResult(){
+			return result;
+		}
 		//Funciones herdadas de plantilla	
 		void leer(){
-			int i;
+				int numcandidatos;
+				string nombre;
+				string apellido;
+				int partido;
+				long long votos;
+				float porcentaje;
+				int departamento;
+				long long censo;
+				int ciudad;
+				string nombreCompleto;
+				//archivo de entrada
+				ifstream archEntrada1("archivos/simulacion/simulation.txt", ios::in);
+				ifstream archEntrada2("archivos/simulacion/simulationA.txt", ios::in);
+				
+				if (!archEntrada1.good()){
+					cerr << "No se pudo abrir el archivo ciudades" << endl;
+			    	exit(1);
+				}
+				if (!archEntrada2.good()){
+					cerr << "No se pudo abrir el archivo ciudades" << endl;
+			    	exit(1);
+				}
+				
+				votoP v;
+				
+				//se carga la simulacion presidencial anterior
+				archEntrada1 >> numcandidatos;
+				while(!archEntrada1.eof()){					
+					archEntrada1 >> nombre;
+					archEntrada1 >> apellido;
+					nombreCompleto = nombre +" "+apellido;
+					archEntrada1 >> partido;
+					archEntrada1 >> votos;
+					archEntrada1 >> porcentaje;
+					v.nombreCand=nombreCompleto;
+					v.partido = partido;
+					v.porcentaje = porcentaje;
+					v.votos = votos;
+					v.votoP = new votoPC[cantCiudades+1];   //supongo y aspiro que esta bien
+					for (int i=1 ; i<=numcandidatos; i++){
+						archEntrada1>> departamento;
+						archEntrada1 >> ciudad;
+						archEntrada1>>votos;
+						archEntrada1>>porcentaje;
+						v.votoP[i-1].ciudad = ciudad;
+						v.votoP[i-1].departamento = departamento;
+						v.votoP[i-1].porcentaje = porcentaje;
+						v.votoP[i-1].votos = votos;
+					}
+					presidentes.anadirFin(v);
+				}
+				//se carga la simulacion de las alcaldias anterior
+				string city;
+				resultados r;
+				voto vo;
+				while(!archEntrada2.eof()){
+					archEntrada2 >> city;
+					r.nombreCiudad = city;
+					
+					for(int i=1; i<=cantCiudades; i++){
+						archEntrada2 >> city;
+						vo.nombreCand = city;
+						archEntrada2 >> partido;
+						vo.partido = partido;
+						archEntrada2 >> votos;
+						vo.votos = votos;
+						archEntrada2 >> porcentaje;
+						vo.porcentaje = porcentaje;
+						r.resultado.anadirFin(vo);
+					}
+					result.anadirFin(r);
+				}
+				archEntrada1.close();
+				archEntrada2.close();
 		}
 		void escribir(){
-			cout<<"escribe";
+			ofstream archsalida1("archivos/simulacion/temp.txt", ios::out|ios::trunc);    //Crea un archivo para escribirlo
+			ofstream archsalida2("archivos/simulacion/temp2.txt", ios::out|ios::trunc);    //Crea un archivo para escribir la cantidad de simulaciones actual
+			ofstream archsalida3("archivos/simulacion/temp3.txt", ios::out|ios::trunc);
+			if (!archsalida1.good())
+		    {	cerr << "No se pudo abrir el archivo " << endl;
+		    	exit(1);
+			}    
+			if (!archsalida2.good())
+		    {	cerr << "No se pudo abrir el archivo " << endl;
+		    	exit(1);
+			}
+			if (!archsalida3.good())
+		    {	cerr << "No se pudo abrir el archivo " << endl;
+		    	exit(1);
+			}
+			//Se escribe el archivo de la simulación actual     
+			archsalida1 << presidentes.getTam()<<endl;
+			for(int i=1; i<=presidentes.getTam(); i++){
+				archsalida1 << presidentes.devolverDato(i).nombreCand <<" "<< presidentes.devolverDato(i).partido <<" " <<presidentes.devolverDato(i).votos 
+				            <<" "<< presidentes.devolverDato(i).porcentaje << endl;
+				   
+				for(int j=1; j<=cantCiudades; j++){
+					archsalida1 << presidentes.devolverDato(i).votoP[j].departamento<<" " << presidentes.devolverDato(i).votoP[j].ciudad 
+								<<" "<< presidentes.devolverDato(i).votoP[j].votos <<" "<< presidentes.devolverDato(i).votoP[j].porcentaje;
+					if(i<presidentes.getTam() && j<=cantCiudades){
+						archsalida1 <<endl;
+					} 
+					if(i==presidentes.getTam() && j<cantCiudades){
+						archsalida1 <<endl;
+					}
+				}
+			}
+			//Se escribe el archivo de la cantidad de simulaciones realizadas
+			archsalida2 << ++indice;		
+			
+			//Se escribe el archivo con los resultados para las alcaldias
+			for (int i=1; i<=result.getTam(); i++){
+				archsalida3 << result.devolverDato(i).nombreCiudad<<endl;
+				for (int j=1 ;j<=result.devolverDato(i).resultado.getTam(); j++){
+					archsalida3 << result.devolverDato(i).resultado.devolverDato(j).nombreCand<<" " << result.devolverDato(i).resultado.devolverDato(j).partido
+								<<" "<< result.devolverDato(i).resultado.devolverDato(j).votos<<" " << result.devolverDato(i).resultado.devolverDato(j).porcentaje;
+					if(i<result.getTam() && j<= result.devolverDato(i).resultado.getTam()){
+						archsalida3<<endl;
+					} 
+					if(i==result.getTam() && j<result.devolverDato(i).resultado.getTam()){
+						archsalida3 <<endl;
+					}
+				}
+			}
+			
+			
+		    archsalida1.close();
+			archsalida2.close();
+			archsalida3.close();
+			remove("archivos/simulacion/simulation.txt");									
+		 	rename("archivos/simulacion/temp.txt", "archivos/simulacion/simulation.txt");
+		 	remove("archivos/simulacion/indice.txt");
+		 	rename("archivos/simulacion/temp2.txt", "archivos/simulacion/indice.txt");
+		 	remove("archivos/simulacion/simulationA.txt");
+		 	rename("archivos/simulacion/temp3.txt", "archivos/simulacion/simulationA.txt");
 		}
 		
 		//Constructor
 		simulacion(int ciudadesCant){
-			cantCiudades=ciudadesCant;		
+			cantCiudades=ciudadesCant;			 				
 		}	
 		resultados getResultAlcaldia(string nombreC){
 			int aux=1;
