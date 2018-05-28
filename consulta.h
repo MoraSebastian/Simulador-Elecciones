@@ -40,6 +40,18 @@ class consulta{
 	Lista<candidato> consultaNacional(int partido){
 		return pts.devolverDato(partido).candidatos;
 	}
+	
+	Lista<candidato> consultaPresidenciaPartido(int partido){
+		Lista<candidato> temp, temp2;
+		temp = consultaNacional(partido);
+		for (int i=1; i<=temp.getTam(); i++){
+			if(temp.devolverDato(i).tipoCandidato==1){
+				temp2.anadirFin(temp.devolverDato(i));
+			}
+		}
+	
+		return temp2;
+	}
 	/* Metodo que recibe un @param partido y @param departamento
 	los cuales se utilizaran para retornar una lista con todos los candidatos
 	que se presentan a alcaldia de el partido en dicha ciudad

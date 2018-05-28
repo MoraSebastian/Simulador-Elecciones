@@ -3,7 +3,8 @@
 #include "simulacion.h"
 #include "ciudad.h"
 #include "string.h"
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+#include <string>
+#include "modificaciones.h"
 
 //Se cargan todos los datos
 ciudades cities;
@@ -11,10 +12,42 @@ departamentos deps(cities.getCiudades());
 candidatos can;
 Partido part(can.getCandidatos());
 consulta s(part.getPartidos(),deps.getDeps());
-simulacion sim;
+simulacion sim(cities.getMun().getTam());
+modificacion modificar(can, part);
 bool simulacion = false;
 
-//Reemplaza el - del nombre por un espacio 
+string reemplazar(string str, char original, string reemplazo);
+void tarjetonC(Lista<candidato> c);
+void tarjetonP(Lista<candidato> c);
+void censo(Lista<ciudad> c);
+void pais(Lista<departamento> d);
+void mostrarCandidato(candidato c);
+void mostrarCiudad(ciudad ci);
+void menus(int opcion);
+void menuCambios(int opcion);
+void menuModCand(int opcion);
+void menuModificaciones(int opcion);
+void menuConsulta(int opcion);
+void menuReportes(int opcion);
+void menusSimulacion(int opcion);
+
+int main(int argc, char** argv) {
+		int decision;
+		do{
+			menus(0);
+			cin>>decision;
+			system("cls");
+			if(decision != 4){
+				menus(decision);
+				system("pause");
+				system("cls");
+			}
+		}while(decision!= 4);
+		cout<<"!GRACIAS!"<<endl;
+	return 0;
+}
+
+/*Reemplaza el - del nombre por un espacio */
 string reemplazar(string str, char original, string reemplazo) {    
 		string aux = str;        
 	    for (int i = 0; i < (int)aux.length(); ++i) {
@@ -25,8 +58,7 @@ string reemplazar(string str, char original, string reemplazo) {
 	    }     
 	    return aux;
 }
-
-//Tarjeton por ciudad
+/*Tarjeton por ciudad*/
 void tarjetonC(Lista<candidato> c){
 	cout<<endl<<"0. Voto en Blanco."<<endl;
 	int aux = 1;
@@ -37,8 +69,7 @@ void tarjetonC(Lista<candidato> c){
 		
 	}
 }
-
-//Tarjeton para presidencia
+/*Tarjeton para presidencia*/
 void tarjetonP(Lista<candidato> c){
 	cout<<endl<<"0. Voto en Blanco."<<endl;
 	cout<<endl;
@@ -49,19 +80,19 @@ void tarjetonP(Lista<candidato> c){
 		cout<<endl;
 	}
 }
-//Mostrar censos
+/*Mostrar censos por ciudad*/
 void censo(Lista<ciudad> c){
 	for(int i = 1;i<= c.getTam();i++){
 		cout<<"Ciudad: "<<c.devolverDato(i).nombre<<"  Censo: "<<c.devolverDato(i).censo<<endl;
 	}
 }
-//Muestra el censo de todo el pais
+/*Muestra el censo de todo el pais*/
 void pais(Lista<departamento> d){
 	for(int i = 1;i<= d.getTam();i++){
 		cout<<"Departamento "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<"  Censo: "<<s.censoDepartamento(i)<<endl;
 	}
 }
-//Muestra toda la información importante de un candidato
+/*Muestra toda la información importante de un candidato*/
 void mostrarCandidato(candidato c){
 	cout<<"Nombre; "<<c.nombre<<" "<<c.apellido<<endl;
 	cout<<"Cedula: "<<c. id<<endl;
@@ -73,23 +104,21 @@ void mostrarCandidato(candidato c){
 	cout<<"Partido: "<<reemplazar(s.getNombreP(c.partido),'-'," ")<<endl;
 	cout<<"--------------------------------------------------------"<<endl;
 }
-
-//Muestra información importante de una ciudad
+/*Muestra información importante de una ciudad*/
 void mostrarCiudad(ciudad ci){
 	cout<<"Nombre: "<<ci.nombre<<endl;
 	cout<<"Departamento: "<<reemplazar(s.getNombreD(ci.departamento),'-'," ")<<endl;
 	cout<<"Censo: "<<ci.censo<<endl;	
 	cout<<"--------------------------------------------------------"<<endl;
 }
-void menuConsulta(int opcion);
-void menusSimulacion(int opcion);
-
+/**Menus generales*/
 void menus(int opcion){
 	switch(opcion){
 		case 0:{
 			cout<<"Bienvenido a la Registraduria General de la Nacion"<<endl<<endl;
 			cout<<"1. Consultar."<<endl;
 			cout<<"2. Simular Elecciones."<<endl;
+			cout<<"3. Modificar, crear o eliminar registros."<<endl;
 			cout<<"4. Salir."<< endl;
 			break;
 		}
@@ -102,12 +131,215 @@ void menus(int opcion){
 			break;
 		}
 		case 3:{
-			
+			menuCambios(0);
 			break;
 		}
 	}
 }
-
+/*Menu para los cambios en el registro*/
+void menuCambios(int opcion){
+	int decision;
+	switch(opcion){
+		case 0:{
+			cout << "1. Modificar registro. " << endl;
+			cout << "2. Eliminar registro. " << endl;
+			cout << "3. Crear registro." << endl;
+			cin >> decision;
+			menuCambios(decision);
+			break;
+		}
+		case 1:{
+			cout << "1. Modificar informacion de candidato." << endl;
+			cout << "2. Modificar informacion de partido." << endl;
+			cout << "3. Modificar informacion de ciudad." << endl;
+			cout << "4. Modificar informacion de departamento" << endl;
+			cin >> decision;
+			menuModificaciones(decision);
+			break;
+		}
+		case 2:{
+			
+			break;
+		}
+		default:{
+	
+			break;
+		}
+	}
+}
+/*Menu modificaciones candidato*/
+void menuModCand(int opcion, candidato auxCand){
+	string texto, texto2, texto3;
+	int decision;
+	switch(opcion){
+		case 1:{
+			cout << "Nombre actual: " << auxCand.nombre << endl;
+			cout << "Escriba el nuevo nombre:" << endl;
+			cin >> texto;
+			auxCand.nombre = texto;
+			break;
+		}
+		case 2:{
+			cout << "Apellido actual: " << auxCand.apellido << endl;
+			cout << "Escriba el nuevo apellido:" << endl;
+			cin >> texto;
+			auxCand.apellido = texto;
+			break;
+		}
+		case 3:{
+			cout << "Sexo actual: " << auxCand.sexo << endl;
+			cout << "1. Mujer" << endl;
+			cout << "2. Hombre" << endl;
+			cin >> decision;
+			if(decision==1){
+				auxCand.sexo = "Mujer";
+			} else if(decision==2){
+				auxCand.sexo = "Hombre";
+			} else {
+				cout << "Numero no valido, no se modifico el sexo del candidato" << endl;
+			}
+			
+			break;
+		}
+		case 4:{
+			cout << "Estado Civil actual: " << auxCand.estadoCivil << endl;
+			cout << "Escriba el nuevo estado civil:" << endl;
+			cin >> texto;
+			auxCand.estadoCivil = texto;
+			break;
+		}
+		case 5:{
+			cout << "Fecha nacimiento actual: " << auxCand.fechaNac << endl;
+			cout << "Escriba el dia de nacimiento (numero)" << endl;
+			cin >> texto;
+			cout << "Escriba el mes de nacimiento (numero)" << endl;
+			cin >> texto2;
+			cout << "Escriba el año de nacimiento " << endl;
+			cin >> texto3;
+			auxCand.fechaNac = texto+"/"+texto2+"/"+texto3;
+			break;
+		}
+		case 6:{
+			cout << "Ciudad de nacimiento actual: " << s.nombreCiudad(auxCand.ciudadNac) << endl;
+			cout << "Ciudades disponibles: " << endl;
+			Lista<ciudad> ciud = cities.getMun();
+			for(int i=1; i<=ciud.getTam(); i++){
+				cout << i << ". " << ciud.devolverDato(i).nombre << endl;
+			} 
+			cout << "Escriba el numero de la ciudad" << endl;
+			cin >> decision;
+			auxCand.ciudadNac;
+			break;
+		}
+		case 7:{
+			cout << "Ciudad de residencia actual: " << s.nombreCiudad(auxCand.ciudadRes) << endl;
+			cout << "Ciudades disponibles: " << endl;
+			Lista<ciudad> ciud = cities.getMun();
+			for(int i=1; i<=ciud.getTam(); i++){
+				cout << i << ". " << ciud.devolverDato(i).nombre << endl;
+			}
+			cout << "Escriba el numero de la ciudad" << endl;
+			cin >> decision;
+			auxCand.ciudadRes;
+			break;
+		}
+		case 8:{
+			cout << "Partido actual: " << s.getNombreP(auxCand.partido) << endl << endl; 
+			for(int i=1; i<=part.getPartidos().getTam(); i++){
+				cout << i << ". " << part.getPartidos().devolverDato(i).nombre << endl;
+			}
+			cin >> decision;
+			auxCand.partido;
+			break;
+		}
+		default:{
+			break;
+		}
+	}
+	modificar.modificarCandidato(auxCand);
+}
+/*Menu modificaciones de registros*/
+void menuModificaciones(int opcion){
+	string texto;
+	int decision;
+	switch(opcion){
+			case 1:{
+			candidato auxCand;
+			cout << "Lista de candidatos" << endl;
+			Lista <candidato> aux = can.getCandidatos();
+			for (int i=1; i<=can.getTam(); i++){
+				cout << i << ". " << aux.devolverDato(i).nombre << " " << aux.devolverDato(i).apellido <<  endl;
+			}
+			cout << "Escriba el numero del candidato el cual desea modificar" << endl;
+			cin >> decision;
+			system("cls");
+			auxCand = can.getCandidato(decision);
+			cout << "1. Nombre: " << auxCand.nombre << endl;
+			cout << "2. Apellido: " << auxCand.apellido << endl;
+			cout << "3. Sexo: " << auxCand.sexo << endl;
+			cout << "4. Estado Civil: " << auxCand.estadoCivil << endl;
+			cout << "5. Fecha nacimiento: " << auxCand.fechaNac << endl;
+			cout << "6. Ciudad de nacimiento: " << s.nombreCiudad(auxCand.ciudadNac) << endl;
+			cout << "7. Ciudad de residencia: " << s.nombreCiudad(auxCand.ciudadRes) << endl;
+			cout << "8. Partido: " << s.getNombreP(auxCand.partido) << endl << endl;
+			cout << "Seleccione el elemento que desea modificar del candidato" << endl;
+			cin >> decision;
+			menuModCand(decision, auxCand);
+			break;
+		}
+		case 2:{
+			cout >> "Lista de partidos: " << endl;
+			partido partidito;
+			for(int i=1; i<=part.getPartidos().getTam(); i++){
+				cout << i << ". " << part.getPartidos().devolverDato(i).nombre << endl;
+			}
+			cout << "Escriba el numero del partido que desea modificar"<< endl;
+			cin >> decision;
+			system("cls");
+			partidito = part.getPartido(decision);
+			cout << "1. Modificar nombre" << endl;
+			cout << "2. Anadir un candidato" << endl;
+			cin >> decision;
+			switch(decision){
+				case 1:{
+					cout << "Nombre actual: " << partidito.nombre << endl;
+					cout << "Escriba el nuevo nombre: (Usar guiones en lugar de espacios) " << emdl;
+					cin >> texto;
+					partidito.nombre = texto;
+					modificar.modificarPartido(partidito);
+					break;
+				}
+				case 2:{
+					cout << "Lista de candidatos" << endl;
+					Lista <candidato> aux = can.getCandidatos();
+					for (int i=1; i<=can.getTam(); i++){
+						cout << i << ". " << aux.devolverDato(i).nombre << " " << aux.devolverDato(i).apellido <<  endl;
+					}
+					cout << "Escriba el numero del candidato el cual desea añadir al nuevo partido" << endl;
+					cin >> decision;
+					modificar.modificarCandidatosPart(partidito.clave, decision);
+					break;
+				}
+				default:{
+					break;
+				}
+			}
+			break;
+		}
+		case 3:{
+			
+			break;
+		}
+		case 4:{
+			
+			break;
+		}
+		default:{
+			break;
+		}
+	}
+}
+/*Menus para consulta*/
 void menuConsulta(int opcion){
 	int i;
 	switch(opcion){
@@ -274,8 +506,8 @@ void menuConsulta(int opcion){
 			break;
 		}
 	}
-}
-
+} 
+/*Menus para reportes*/
 void menuReportes(int opcion){
 	int decision, i, departamento;
 	switch(opcion){
@@ -329,7 +561,18 @@ void menuReportes(int opcion){
 			break;
 		}
 		case 4:{
-		
+			cout << "De cual departamento desea ver el reporte general?" << endl;
+			for(i = 1;i<= deps.getTam();i++){
+				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
+			}
+			cin >> decision;
+			votoEst informe = sim.reportePresidenciaDep(decision);
+			cout << "Estadisticas por departamento." << endl;
+			cout << "Total votos:" << informe.votos << endl;
+			cout << "Votos en blanco:" << informe.votosBlanco << " "<< informe.porcentajeBlanco << "%" << endl;
+			cout << "Votos nulos:" << informe.votosNulos << " "<< informe.porcentajeNulos <<"%" << endl;
+			cout << "Abstencion:" << informe.votosAbstencion << " "<< informe.porcentajeAbst <<"%" << endl;
+			
 			break;
 		}
 		case 5:{
@@ -342,31 +585,67 @@ void menuReportes(int opcion){
 			break;
 		}
 		case 6:{
-			
+			Lista<candidato> c;
+			estadisticasP est;
+			long long mujeres=0, hombres=0, censoVotos= sim.censoVotos();
+			cout << "De cual departamento desea ver el reporte detallado?" << endl;
+			for(i = 1;i<= deps.getTam();i++){
+				cout<<i<<". "<<reemplazar(deps.getDeps().devolverDato(i).nombre,'-'," ")<<endl;
+			}
+			cin >> departamento;
+			system("cls");
+			cout << "censo: " << censoVotos << endl;
+			for (i = 1; i<= part.getTam(); i++){
+				c = s.consultaPresidenciaPartido(i);
+				if(c.getTam()>0){
+					est = sim.reporteDetalladoPres(c, departamento);
+					cout << "Partido: " << s.getNombreP(i) << endl;
+					cout << "Total votos al partido: " << est.totalVotos << " "<< sim.porcentaje(est.totalVotos, censoVotos) << "%" << endl << endl;		
+					mujeres+=est.votosPorMujeres;
+					hombres+=est.votosPorHombres;		
+				}	
+			}
+			cout << "Total votos hacia mujeres por departamento: " << mujeres << " "<< sim.porcentaje(mujeres, censoVotos) << "%" << endl;
+			cout << "Total votos hacia hombres por departamento: " << hombres << " "<< sim.porcentaje(hombres, censoVotos) << "%" << endl;
 			break;
 		}
 		case 7:{
-			
+			Lista<candidato> c;
+			estadisticasP est;
+			long long mujeres=0, hombres=0, censoVotos= sim.censoVotos();
+			cout << "censo: " << sim.censoVotos() << endl;
+			for (i = 1; i<= part.getTam(); i++){
+				c = s.consultaPresidenciaPartido(i);
+				if(c.getTam()>0){
+					est = sim.reporteDetalladoPresGeneral(c);
+					cout << "Partido: " << s.getNombreP(i) << endl;
+					cout << "Total votos al partido: " << est.totalVotos << " "<< sim.porcentaje(est.totalVotos, censoVotos) << "%" << endl << endl;
+					mujeres+=est.votosPorMujeres;
+					hombres+=est.votosPorHombres;				
+				}	
+			}
+			cout << "Total votos hacia mujeres nacional: " << mujeres << " "<< sim.porcentaje(mujeres, censoVotos) << "%" << endl;
+			cout << "Total votos hacia hombres nacional: " << hombres << " "<< sim.porcentaje(hombres, censoVotos) << "%" << endl;
 			break;
 		}
 		case 8:{
-			Lista <votoP> segV = sim.segundaVuelta();
+		Lista <votoP> segV = sim.segundaVuelta();
 			if (segV.getTam()!=0){
 				cout << "Es necesaria una segunda vuelta presidencial entre los siguientes candidatos: " << endl;
 				cout << "Candidato 1: " << segV.devolverDato(1).nombreCand << endl;
 				cout << "Candidato 2: " << segV.devolverDato(2).nombreCand << endl;
 			} else {
 				cout << "No es necesaria una segunda vuelta presidencial" << endl;
+				
 			}
 			break;
-		}
-		default:{
 			
-			break;
+		}
+		default:{break;
 		}
 	}
 }
-//Menus de simulacion
+/*Menus de simulacion*/
 void menusSimulacion(int opcion){
 	int aux;
 	if (!simulacion){														//Se realiza la simulacion para todo el pais
@@ -449,22 +728,6 @@ void menusSimulacion(int opcion){
 		}
 		
 	}
-}
-
-int main(int argc, char** argv) {
-		int decision;
-		do{
-			menus(0);
-			cin>>decision;
-			system("cls");
-			if(decision != 4){
-				menus(decision);
-				system("pause");
-				system("cls");
-			}
-		}while(decision!= 4);
-		cout<<"!GRACIAS!"<<endl;
-	return 0;
 }
 
 

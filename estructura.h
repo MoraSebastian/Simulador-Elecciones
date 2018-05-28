@@ -63,6 +63,16 @@ struct estadisticas{
 	float porcentajeMujeres;
 	float porcentajeTotal;	
 };
+struct estadisticasP{
+	int partido;
+	long long votosPorHombres;
+	long long votosPorMujeres;
+	long long totalVotos;
+	float porcentajeTotal;	
+	float porcentajeHombres;	
+	float porcentajeMujeres;	
+};
+
 struct voto{
 	string nombreCand;
 	int partido;

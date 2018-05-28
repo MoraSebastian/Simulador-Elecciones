@@ -27,6 +27,8 @@ class simulacion: public plantilla{
 	Lista<votoP> presidentes;
 	Lista<voto> alcaldias;
 	votoEst votosTotales;
+	int cantCiudades = 0;
+	
 	public: 
 		Lista<votoP> getPresidentes(){
 			return presidentes;
@@ -40,7 +42,8 @@ class simulacion: public plantilla{
 		}
 		
 		//Constructor
-		simulacion(){		
+		simulacion(int ciudadesCant){
+			cantCiudades=ciudadesCant;		
 		}	
 		resultados getResultAlcaldia(string nombreC){
 			int aux=1;
@@ -295,29 +298,41 @@ class simulacion: public plantilla{
 			return estDepartamento;
 		}
 		
-		estadisticas reportePresidenciaDep(int departamento){
-		/*	Lista <votoPC> *votosCiudades;
-			votoP votoInd;
-			votoEst votosTotales;
-			votosTotales.votos = 0;
-			votosTotales.votosBlanco = 0;
-			votosTotales.votosNulos = 0;
-			votosTotales.votosAbstencion = 0;
-			votosTotales.porcentajeBlanco = 0;
-			votosTotales.porcentajeNulos = 0;
-			votosTotales.porcentajeAbst = 0;
+		votoEst reportePresidenciaDep(int departamento){
+			string nombreC;
+			votoPC votoAux;
+			votoEst votosTotales2;
+			votosTotales2.votos = 0;
+			votosTotales2.votosBlanco = 0;
+			votosTotales2.votosNulos = 0;
+			votosTotales2.votosAbstencion = 0;
+			votosTotales2.porcentajeBlanco = 0;
+			votosTotales2.porcentajeNulos = 0;
+			votosTotales2.porcentajeAbst = 0;
 			for (int i=1; i<=presidentes.getTam(); i++){
-				votosCiudades = presidentes.devolverDato(i).votoP;
-				
-				for(int j=1; j<=votosCiudades.getTam(); j++){
-					if(departamento==votosCiudades.devolverDato(j).departamento){
-						if(presidentes.devolverDato(i))
-						votosTotales.votos+=votosCiudades.devolverDato(j).votos;
-						if(votosCiudades)
+				nombreC = presidentes.devolverDato(i).nombreCand;
+				for (int j=1; j<=cantCiudades+1; j++){
+					votoAux = presidentes.devolverDato(i).votoP[j];
+					if(votoAux.departamento==departamento){
+						votosTotales2.votos+=votoAux.votos;
+						if(nombreC.compare("Voto en Blanco")==0){
+							votosTotales2.votosBlanco+=votoAux.votos;
+						}
+						if(nombreC.compare("Abstinencia")==0){
+							votosTotales2.votosAbstencion+=votoAux.votos;
+							votosTotales2.votos-=votoAux.votos;
+						}
+						if(nombreC.compare("Voto Nulo")==0){
+							votosTotales2.votosNulos+=votoAux.votos;
+						}	
 					}
 				}
 			}
-			*/
+			votosTotales2.porcentajeBlanco = porcentaje(votosTotales2.votosBlanco, votosTotales2.votos);
+			votosTotales2.porcentajeAbst = porcentaje(votosTotales2.votosAbstencion, votosTotales2.votos);
+			votosTotales2.porcentajeNulos = porcentaje(votosTotales2.votosNulos, votosTotales2.votos);
+	
+			return votosTotales2;
 		}
 		
 		votoEst reportePresidenciaGeneral(){
@@ -329,6 +344,7 @@ class simulacion: public plantilla{
 			votosTotales.porcentajeBlanco = 0;
 			votosTotales.porcentajeNulos = 0;
 			votosTotales.porcentajeAbst = 0;
+			votosTotales.departamento = 0;
 			for(int i=1; i<=presidentes.getTam(); i++){
 				nombreC = presidentes.devolverDato(i).nombreCand;
 				votosTotales.votos+=presidentes.devolverDato(i).votos;
@@ -349,13 +365,15 @@ class simulacion: public plantilla{
 			
 			return votosTotales;
 		}
+		
+		
 		Lista <votoP> segundaVuelta(){
-			int i;
+			int i=1;
 			Lista <votoP> candSeg;
 			votosTotales = reportePresidenciaGeneral();
 			long long auxCant = abs((votosTotales.votos/2)+1);
 			bool segundVuelta = true;
-			while(i <= presidentes.getTam() && segundVuelta == true){
+			while(i<= presidentes.getTam() && segundVuelta == true){
 				if(presidentes.devolverDato(i).votos>=auxCant && (presidentes.devolverDato(i).nombreCand).compare("Abstinencia")==1 
 					&& (presidentes.devolverDato(i).nombreCand).compare("Voto en Blanco")==1 && (presidentes.devolverDato(i).nombreCand).compare("Voto Nulo")==1 ){
 					segundVuelta = false;
@@ -367,6 +385,83 @@ class simulacion: public plantilla{
 				candSeg.anadirFin(presidentes.devolverDato(2));
 			}
 			return candSeg;
+		}
+		
+		estadisticasP reporteDetalladoPres(Lista<candidato> candPresidentesPart, int departamento){
+			estadisticasP informe;
+			votoPC auxVotos;
+			string nombreComp;
+			informe.partido = candPresidentesPart.devolverDato(1).partido;
+			informe.totalVotos = 0;
+			informe.votosPorHombres = 0;
+			informe.votosPorMujeres = 0;
+			
+			for(int i=1; i<=candPresidentesPart.getTam(); i++){
+				for (int j=1; j<=presidentes.getTam(); j++){
+					nombreComp = candPresidentesPart.devolverDato(i).nombre + " " + candPresidentesPart.devolverDato(i).apellido;
+					if(nombreComp.compare(presidentes.devolverDato(j).nombreCand)==0){	
+						for (int k=1; k<=cantCiudades+1 ; k++){
+							auxVotos = presidentes.devolverDato(j).votoP[k];
+							if(auxVotos.departamento == departamento){
+							//	cout << "contador " << auxVotos.votos; 
+								if((candPresidentesPart.devolverDato(i).sexo).compare("Mujer")==0){
+									informe.votosPorMujeres+=auxVotos.votos;
+								} 
+								if((candPresidentesPart.devolverDato(i).sexo).compare("Hombre")==0){
+									informe.votosPorHombres+=auxVotos.votos;
+								}
+								informe.totalVotos+=auxVotos.votos;
+	
+							}
+						}
+					}
+				}			
+			}
+			return informe;
+		}
+		estadisticasP reporteDetalladoPresGeneral(Lista<candidato> candPresidentesPart){
+			estadisticasP informe;
+			votoPC auxVotos;
+			string nombreComp;
+			informe.partido = candPresidentesPart.devolverDato(1).partido;
+			informe.totalVotos = 0;
+			informe.votosPorHombres = 0;
+			informe.votosPorMujeres = 0;
+			informe.porcentajeHombres = 0;
+			informe.porcentajeMujeres = 0;
+			
+			for(int i=1; i<=candPresidentesPart.getTam(); i++){
+				for(int j=1; j<=presidentes.getTam(); j++){
+					nombreComp = candPresidentesPart.devolverDato(i).nombre + " " + candPresidentesPart.devolverDato(i).apellido;
+					if(nombreComp.compare(presidentes.devolverDato(j).nombreCand)==0){	
+						for (int k=1; k<=cantCiudades ; k++){
+								auxVotos = presidentes.devolverDato(j).votoP[k];
+								if((candPresidentesPart.devolverDato(i).sexo).compare("Mujer")==0){
+								//	cout << "entra M" << endl;
+									informe.votosPorMujeres+=auxVotos.votos;
+								} 
+								if((candPresidentesPart.devolverDato(i).sexo).compare("Hombre")==0){
+								//	cout << "entra H" << endl;
+									informe.votosPorHombres+=auxVotos.votos;
+								}
+								informe.totalVotos+=auxVotos.votos;
+						}
+					}
+				}
+				//informe.porcentajeHombres = porcentaje(informe.votosPorHombres, censoVotos());			
+				//informe.porcentajeMujeres = porcentaje(informe.votosPorMujeres, censoVotos());
+				//informe.porcentajeTotal = porcentaje(informe.totalVotos, censoVotos());
+			}
+			return informe;
+		}
+		long long censoVotos(){
+			long long totalVotosC;
+			for(int l=1; l<=presidentes.getTam(); l++){
+				if(presidentes.devolverDato(l).nombreCand.compare("Abstinencia")==1){
+					totalVotosC+=presidentes.devolverDato(l).votos;
+				}
+			}
+			return totalVotosC;
 		}
 };
 

@@ -88,7 +88,7 @@ class candidatos: public plantilla{
 	    remove("archivos/candidatos.txt");
 	 	rename("archivos/temp.txt", "archivos/candidatos.txt");
 	}
-	//modificar un candidato
+	/*modificar un candidato*/
 	void modificarC(candidato c){
 		int i=1;		
 		while (c.clave!=cand.devolverDato(i).clave){
@@ -97,21 +97,21 @@ class candidatos: public plantilla{
 		cand.modificar(c, i);
 		escribir();
 	}
-	//agregar un nuevo candidato
+	/*agregar un nuevo candidato*/
 	void anadir(candidato c){
 		cand.anadirFin(c);
 	}
 	
-	//Devuelve la lista de candidatos
+	/*Devuelve la lista de candidatos*/
 	Lista<candidato> getCandidatos(){
 		return cand;
 	}
-	//Para obtener un candidato
+	/*Para obtener un candidato*/
 	candidato getCandidato(int clave){
 		return cand.devolverDato(clave);
 	}
 	
-	//Función para calcular edad 
+	/*Función para calcular edad */
 	int edad(string fecha){
 			char *nuevafecha=strdup(fecha.c_str());
 			int dia,mes,ano,diaa,mesa,anoa;
