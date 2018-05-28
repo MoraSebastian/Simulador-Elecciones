@@ -1,30 +1,30 @@
-1 Bogota 1 5702805
-2 Zipaquira 1 80570
-3 Girardot 1 79200
-4 Sopo 1 8158
-5 Cajica 1 17742
-6 Medellin 2 1350000
-7 Bello 2 250862
-8 Itagui 2 79520
-9 Envigado 2 206000
-10 Turbo 2 78500
-11 Cali 3 1549920
-12 Buenaventura 3 207431
-13 Palmira 3 243441
-14 Tulua 3 147339
-15 Cartago 3 108329
-16 Barranquilla 4 914945
-17 Soledad 4 247018
-18 Malambo 4 62606
-19 Sabanalarga 4 59113
-20 Baranoa 4 42012
-21 Chia 1 92053
-22 Soacha 1 370934
-23 Apartado 2 99206
-24 Rionegro 2 66005
-25 Caucasia 2 62047
-26 Jamundi 3 79735
-27 Yumbo 3 78540
-28 Fusagasuga 1 97386
-29 Buga 3 73476
-30 Facatativa 1 95511
+1 Bogota 1 5702805 1
+2 Zipaquira 1 80570 1
+3 Girardot 1 79200 1
+4 Sopo 1 8158 1
+5 Cajica 1 17742 1
+6 Medellin 2 1350000 1
+7 Bello 2 250862 1
+8 Itagui 2 79520 1
+9 Envigado 2 206000 1
+10 Turbo 2 78500 1
+11 Cali 3 1549920 1
+12 Buenaventura 3 207431 1
+13 Palmira 3 243441 1
+14 Tulua 3 147339 1
+15 Cartago 3 108329 1
+16 Barranquilla 4 914945 1
+17 Soledad 4 247018 1
+18 Malambo 4 62606 1
+19 Sabanalarga 4 59113 1
+20 Baranoa 4 42012 1
+21 Chia 1 92053 1
+22 Soacha 1 370934 1
+23 Apartado 2 99206 1
+24 Rionegro 2 66005 1
+25 Caucasia 2 62047 1
+26 Jamundi 3 79735 1
+27 Yumbo 3 78540 1
+28 Fusagasuga 1 97386 1
+29 Buga 3 73476 1
+30 Facatativa 1 95511 0
